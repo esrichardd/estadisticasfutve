@@ -5,7 +5,7 @@ from app.config import settings
 
 # FastAPI lee automáticamente el header "x-api-key" de cada request.
 # Si el header falta, devuelve 403 antes de llegar al endpoint.
-_api_key_header = APIKeyHeader(name="x-api-key", auto_error=True)
+_api_key_header = APIKeyHeader(name="x-api-key", auto_error=True, scheme_name="ApiKeyAuth")
 
 
 async def verify_api_key(key: str = Security(_api_key_header)) -> str:
