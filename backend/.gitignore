@@ -1,0 +1,23 @@
+# ─── Python ───────────────────────────────────────────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+*.egg-info/
+dist/
+build/
+
+# Caché de herramientas
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Cobertura de tests
+.coverage
+htmlcov/
+coverage.xml
+
+# ─── Variables de entorno locales ─────────────────────────────────────────────
+.env
+.env.local

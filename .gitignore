@@ -1,0 +1,49 @@
+# ─── Variables de entorno ─────────────────────────────────────────────────────
+# Nunca commitear .env — contiene credenciales reales
+.env
+# Sí commitear .env.example — es la plantilla sin valores sensibles
+!.env.example
+
+# ─── Python ───────────────────────────────────────────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+*.egg-info/
+dist/
+build/
+
+# Caché de herramientas Python
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+coverage.xml
+
+# ─── Node / Next.js ───────────────────────────────────────────────────────────
+node_modules/
+.next/
+out/
+.pnp
+.pnp.*
+
+# ─── Docker ───────────────────────────────────────────────────────────────────
+*.log
+
+# ─── pgAdmin ──────────────────────────────────────────────────────────────────
+# servers.json sí se commitea (sin credenciales, solo config de conexión)
+# pgpass se genera en runtime con la contraseña real — nunca commitear
+pgadmin/pgpass
+
+# ─── IDEs y editores ──────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ─── Sistema operativo ────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+Desktop.ini

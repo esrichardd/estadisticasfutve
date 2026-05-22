@@ -1,0 +1,81 @@
+services:
+
+  # ─── Base de datos ────────────────────────────────────────────
+  postgres:
+    image: postgres:latest
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    networks:
+      - appnet
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # ─── pgAdmin ──────────────────────────────────────────────────
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    restart: unless-stopped
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+      - ./pgadmin/servers.json:/pgadmin4/servers.json:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - appnet
+
+  # ─── Backend FastAPI ─────────────────────────────────────────
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+    volumes:
+      - ./backend/app:/app/app        # hot reload: código fuente
+      - ./backend/alembic:/app/alembic # hot reload: migraciones
+      - /app/.venv                    # .venv queda en el contenedor
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - appnet
+
+  # ─── Frontend NextJS ─────────────────────────────────────────
+  frontend:
+    build: ./frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+      WATCHPACK_POLLING: "true"       # hot reload confiable en macOS + Docker
+    volumes:
+      - ./frontend:/app               # hot reload: código fuente
+      - /app/node_modules             # node_modules queda en el contenedor
+      - /app/.next                    # caché de build queda en el contenedor
+    depends_on:
+      - backend
+    networks:
+      - appnet
+
+volumes:
+  postgres_data:
+  pgadmin_data:
+
+networks:
+  appnet:
+    driver: bridge
