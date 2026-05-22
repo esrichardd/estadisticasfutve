@@ -1,26 +1,91 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:is(.dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: oklch(0.12 0.005 20);
+  --foreground: oklch(0.92 0.005 60);
+  --card: oklch(0.16 0.006 20);
+  --card-foreground: oklch(0.92 0.005 60);
+  --popover: oklch(0.16 0.006 20);
+  --popover-foreground: oklch(0.92 0.005 60);
+  --primary: oklch(0.44 0.14 15);
+  --primary-foreground: oklch(0.96 0.005 60);
+  --secondary: oklch(0.72 0.12 75);
+  --secondary-foreground: oklch(0.14 0.01 20);
+  --muted: oklch(0.20 0.006 20);
+  --muted-foreground: oklch(0.55 0.01 60);
+  --accent: oklch(0.25 0.008 20);
+  --accent-foreground: oklch(0.92 0.005 60);
+  --destructive: oklch(0.50 0.18 25);
+  --destructive-foreground: oklch(0.96 0.005 60);
+  --border: oklch(0.24 0.008 20);
+  --input: oklch(0.20 0.006 20);
+  --ring: oklch(0.44 0.14 15);
+  --win: oklch(0.58 0.18 142);
+  --draw: oklch(0.55 0.005 60);
+  --loss: oklch(0.52 0.20 25);
+  --gold: oklch(0.72 0.12 75);
+  --radius: 0.5rem;
 }
 
 @theme inline {
+  --font-sans: var(--font-inter), Arial, Helvetica, sans-serif;
+  --font-mono: "Geist Mono", "SFMono-Regular", Consolas, monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-win: var(--win);
+  --color-draw: var(--draw);
+  --color-loss: var(--loss);
+  --color-gold: var(--gold);
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 4px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes livePulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.live-dot {
+  animation: livePulse 1.5s ease-in-out infinite;
+}
+
+.skeleton {
+  @apply animate-pulse rounded-sm bg-accent;
 }
