@@ -18,6 +18,13 @@
       "short": "FV"
     },
     "nav": ["Inicio", "Partidos", "Tabla", "Equipos", "Jugadores"],
+    "language": {
+      "switchTo": "Cambiar a inglés"
+    },
+    "menu": {
+      "open": "Abrir menú",
+      "close": "Cerrar menú"
+    },
     "footerBrand": "Estadísticas FUTVE",
     "footerNote": "Liga FUTVE 2026 Apertura · Datos con fines informativos"
   },

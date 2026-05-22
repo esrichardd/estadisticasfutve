@@ -25,7 +25,7 @@ export default async function Page({ params }: PageProps) {
   const formatLocale = getFormatLocale(locale);
 
   return (
-    <HomeShell labels={dictionary.shell}>
+    <HomeShell labels={dictionary.shell} locale={locale}>
       <Suspense fallback={<HomeSummary skeleton />}>
         <HomeSummary
           formatLocale={formatLocale}

@@ -1,5 +1,10 @@
+import type { Locale } from "@/lib/i18n/config";
+import { LanguageSwitcher } from "./language-switcher";
+import { MobileNav } from "./mobile-nav";
+
 type HomeShellProps = {
   children: React.ReactNode;
+  locale: Locale;
   labels: {
     brand: {
       prefix: string;
@@ -7,23 +12,30 @@ type HomeShellProps = {
       short: string;
     };
     nav: string[];
+    language: {
+      switchTo: string;
+    };
+    menu: {
+      open: string;
+      close: string;
+    };
     footerBrand: string;
     footerNote: string;
   };
 };
 
-export function HomeShell({ children, labels }: HomeShellProps) {
+export function HomeShell({ children, labels, locale }: HomeShellProps) {
   return (
     <div className="min-h-screen bg-background">
       <nav className="sticky top-0 z-50 border-b border-border bg-card">
-        <div className="mx-auto flex h-12 max-w-[1400px] items-center justify-between px-4">
-          <div className="flex items-center gap-2.5">
-            <div className="flex h-7 w-7 items-center justify-center rounded-sm bg-primary">
+        <div className="mx-auto flex h-12 max-w-[1400px] items-center justify-between gap-3 px-4">
+          <div className="flex min-w-0 items-center gap-2.5">
+            <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-sm bg-primary">
               <span className="text-[10px] font-black tracking-tight text-primary-foreground">
                 {labels.brand.short}
               </span>
             </div>
-            <span className="text-sm font-bold tracking-wide text-foreground">
+            <span className="truncate text-sm font-bold tracking-wide text-foreground">
               {labels.brand.prefix}{" "}
               <span className="text-secondary">{labels.brand.accent}</span>
             </span>
@@ -45,6 +57,14 @@ export function HomeShell({ children, labels }: HomeShellProps) {
               </li>
             ))}
           </ul>
+
+          <div className="flex shrink-0 items-center gap-2">
+            <LanguageSwitcher
+              label={labels.language.switchTo}
+              locale={locale}
+            />
+            <MobileNav labels={labels.menu} links={labels.nav} />
+          </div>
         </div>
       </nav>
 

@@ -18,6 +18,13 @@
       "short": "FV"
     },
     "nav": ["Home", "Matches", "Table", "Teams", "Players"],
+    "language": {
+      "switchTo": "Switch to Spanish"
+    },
+    "menu": {
+      "open": "Open menu",
+      "close": "Close menu"
+    },
     "footerBrand": "FUTVE Stats",
     "footerNote": "Liga FUTVE 2026 Apertura · Informational data"
   },
