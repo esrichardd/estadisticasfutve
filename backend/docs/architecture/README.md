@@ -13,6 +13,7 @@ Guía de referencia para entender cómo está organizado el backend, qué hace c
   - [main.py — Punto de entrada](#mainpy--punto-de-entrada)
   - [config.py — Configuración](#configpy--configuración)
   - [database.py — Conexión a la DB](#databasepy--conexión-a-la-db)
+  - [dependencies/ — Dependencias reutilizables](#dependencies--dependencias-reutilizables)
   - [models/ — Tablas de la DB](#models--tablas-de-la-db)
   - [schemas/ — Contratos de la API](#schemas--contratos-de-la-api)
   - [repositories/ — Queries a la DB](#repositories--queries-a-la-db)
@@ -52,6 +53,9 @@ backend/
 │   ├── main.py
 │   ├── config.py
 │   ├── database.py
+│   │
+│   ├── dependencies/
+│   │   └── auth.py
 │   │
 │   ├── models/
 │   │   ├── base.py
@@ -189,6 +193,23 @@ Cada petición HTTP recibe su propia sesión de DB que se abre al entrar y se ci
 
 ```
 Responsabilidad: gestionar el ciclo de vida de las conexiones a PostgreSQL
+```
+
+---
+
+### `dependencies/` — Dependencias reutilizables
+
+Funciones que se inyectan en routers o endpoints vía `Depends` / `Security` de FastAPI. Son transversales a toda la API — no pertenecen a un recurso específico.
+
+**`auth.py`** contiene `verify_api_key`, la dependencia de seguridad actual. Lee el header `x-api-key` de cada request y lo compara con `settings.api_key`. Si no coincide, devuelve `403 Forbidden` antes de que el endpoint procese nada.
+
+Está aplicada al router principal de `api/v1/` (no endpoint por endpoint), así cualquier ruta nueva que se agregue queda protegida automáticamente. El health check `/` queda público a propósito, ya que los sistemas de monitoreo lo usan sin credenciales.
+
+Cuando llegue el momento de agregar autenticación real con JWT o usuarios, este es el único archivo que cambia — el resto de los routers no se tocan.
+
+```
+Responsabilidad: centralizar lógica de seguridad y otras dependencias transversales
+Regla: las dependencias no tienen lógica de negocio ni acceso directo a la DB
 ```
 
 ---
