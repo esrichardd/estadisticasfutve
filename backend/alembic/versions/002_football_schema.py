@@ -16,6 +16,7 @@ Tipos ENUM de PostgreSQL creados:
                          penalty_miss | penalty_saved
   - scope_type_enum    : tournament | phase
 
+PKs: UUID v4 generado por PostgreSQL via gen_random_uuid() (nativo desde PG 13).
 Todas las tablas incluyen created_at y updated_at (timezone-aware).
 
 Revision ID: 002
@@ -56,7 +57,9 @@ def upgrade() -> None:
 
     op.create_table(
         "leagues",
-        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
+        sa.Column(
+            "id", sa.Uuid(), primary_key=True, server_default=sa.text("gen_random_uuid()")
+        ),
         sa.Column("name", sa.String(200), nullable=False),
         sa.Column("country", sa.String(100), nullable=False),
         sa.Column("federation", sa.String(100), nullable=True),
@@ -70,7 +73,9 @@ def upgrade() -> None:
 
     op.create_table(
         "teams",
-        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
+        sa.Column(
+            "id", sa.Uuid(), primary_key=True, server_default=sa.text("gen_random_uuid()")
+        ),
         sa.Column("name", sa.String(200), nullable=False),
         sa.Column("short_name", sa.String(100), nullable=True),
         sa.Column("abbreviation", sa.String(3), nullable=True),
@@ -86,7 +91,9 @@ def upgrade() -> None:
 
     op.create_table(
         "players",
-        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
+        sa.Column(
+            "id", sa.Uuid(), primary_key=True, server_default=sa.text("gen_random_uuid()")
+        ),
         sa.Column("name", sa.String(200), nullable=False),
         sa.Column("birth_date", sa.Date(), nullable=True),
         sa.Column("nationality", sa.String(100), nullable=True),
@@ -96,7 +103,9 @@ def upgrade() -> None:
 
     op.create_table(
         "referees",
-        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
+        sa.Column(
+            "id", sa.Uuid(), primary_key=True, server_default=sa.text("gen_random_uuid()")
+        ),
         sa.Column("name", sa.String(200), nullable=False),
         sa.Column("nationality", sa.String(100), nullable=True),
         sa.Column(
@@ -109,10 +118,12 @@ def upgrade() -> None:
 
     op.create_table(
         "seasons",
-        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
+        sa.Column(
+            "id", sa.Uuid(), primary_key=True, server_default=sa.text("gen_random_uuid()")
+        ),
         sa.Column(
             "league_id",
-            sa.Integer(),
+            sa.Uuid(),
             sa.ForeignKey("leagues.id", ondelete="RESTRICT"),
             nullable=False,
         ),
@@ -124,16 +135,18 @@ def upgrade() -> None:
 
     op.create_table(
         "season_teams",
-        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
+        sa.Column(
+            "id", sa.Uuid(), primary_key=True, server_default=sa.text("gen_random_uuid()")
+        ),
         sa.Column(
             "season_id",
-            sa.Integer(),
+            sa.Uuid(),
             sa.ForeignKey("seasons.id", ondelete="CASCADE"),
             nullable=False,
         ),
         sa.Column(
             "team_id",
-            sa.Integer(),
+            sa.Uuid(),
             sa.ForeignKey("teams.id", ondelete="RESTRICT"),
             nullable=False,
         ),
@@ -143,22 +156,24 @@ def upgrade() -> None:
 
     op.create_table(
         "player_registrations",
-        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
+        sa.Column(
+            "id", sa.Uuid(), primary_key=True, server_default=sa.text("gen_random_uuid()")
+        ),
         sa.Column(
             "player_id",
-            sa.Integer(),
+            sa.Uuid(),
             sa.ForeignKey("players.id", ondelete="RESTRICT"),
             nullable=False,
         ),
         sa.Column(
             "team_id",
-            sa.Integer(),
+            sa.Uuid(),
             sa.ForeignKey("teams.id", ondelete="RESTRICT"),
             nullable=False,
         ),
         sa.Column(
             "season_id",
-            sa.Integer(),
+            sa.Uuid(),
             sa.ForeignKey("seasons.id", ondelete="RESTRICT"),
             nullable=False,
         ),
@@ -176,10 +191,12 @@ def upgrade() -> None:
 
     op.create_table(
         "tournaments",
-        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
+        sa.Column(
+            "id", sa.Uuid(), primary_key=True, server_default=sa.text("gen_random_uuid()")
+        ),
         sa.Column(
             "season_id",
-            sa.Integer(),
+            sa.Uuid(),
             sa.ForeignKey("seasons.id", ondelete="CASCADE"),
             nullable=False,
         ),
@@ -193,10 +210,12 @@ def upgrade() -> None:
 
     op.create_table(
         "tournament_phases",
-        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
+        sa.Column(
+            "id", sa.Uuid(), primary_key=True, server_default=sa.text("gen_random_uuid()")
+        ),
         sa.Column(
             "tournament_id",
-            sa.Integer(),
+            sa.Uuid(),
             sa.ForeignKey("tournaments.id", ondelete="CASCADE"),
             nullable=False,
         ),
@@ -228,10 +247,12 @@ def upgrade() -> None:
 
     op.create_table(
         "phase_groups",
-        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
+        sa.Column(
+            "id", sa.Uuid(), primary_key=True, server_default=sa.text("gen_random_uuid()")
+        ),
         sa.Column(
             "phase_id",
-            sa.Integer(),
+            sa.Uuid(),
             sa.ForeignKey("tournament_phases.id", ondelete="CASCADE"),
             nullable=False,
         ),
@@ -241,16 +262,18 @@ def upgrade() -> None:
 
     op.create_table(
         "group_teams",
-        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
+        sa.Column(
+            "id", sa.Uuid(), primary_key=True, server_default=sa.text("gen_random_uuid()")
+        ),
         sa.Column(
             "group_id",
-            sa.Integer(),
+            sa.Uuid(),
             sa.ForeignKey("phase_groups.id", ondelete="CASCADE"),
             nullable=False,
         ),
         sa.Column(
             "team_id",
-            sa.Integer(),
+            sa.Uuid(),
             sa.ForeignKey("teams.id", ondelete="RESTRICT"),
             nullable=False,
         ),
@@ -262,16 +285,18 @@ def upgrade() -> None:
 
     op.create_table(
         "rounds",
-        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
+        sa.Column(
+            "id", sa.Uuid(), primary_key=True, server_default=sa.text("gen_random_uuid()")
+        ),
         sa.Column(
             "phase_id",
-            sa.Integer(),
+            sa.Uuid(),
             sa.ForeignKey("tournament_phases.id", ondelete="CASCADE"),
             nullable=False,
         ),
         sa.Column(
             "group_id",
-            sa.Integer(),
+            sa.Uuid(),
             sa.ForeignKey("phase_groups.id", ondelete="SET NULL"),
             nullable=True,
         ),
@@ -284,22 +309,24 @@ def upgrade() -> None:
 
     op.create_table(
         "matches",
-        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
+        sa.Column(
+            "id", sa.Uuid(), primary_key=True, server_default=sa.text("gen_random_uuid()")
+        ),
         sa.Column(
             "round_id",
-            sa.Integer(),
+            sa.Uuid(),
             sa.ForeignKey("rounds.id", ondelete="CASCADE"),
             nullable=False,
         ),
         sa.Column(
             "home_team_id",
-            sa.Integer(),
+            sa.Uuid(),
             sa.ForeignKey("teams.id", ondelete="RESTRICT"),
             nullable=False,
         ),
         sa.Column(
             "away_team_id",
-            sa.Integer(),
+            sa.Uuid(),
             sa.ForeignKey("teams.id", ondelete="RESTRICT"),
             nullable=False,
         ),
@@ -310,7 +337,7 @@ def upgrade() -> None:
         # este (Clausura) es la vuelta con localía invertida
         sa.Column(
             "reverse_of_match_id",
-            sa.Integer(),
+            sa.Uuid(),
             sa.ForeignKey("matches.id", ondelete="SET NULL"),
             nullable=True,
         ),
@@ -336,16 +363,18 @@ def upgrade() -> None:
 
     op.create_table(
         "match_officials",
-        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
+        sa.Column(
+            "id", sa.Uuid(), primary_key=True, server_default=sa.text("gen_random_uuid()")
+        ),
         sa.Column(
             "match_id",
-            sa.Integer(),
+            sa.Uuid(),
             sa.ForeignKey("matches.id", ondelete="CASCADE"),
             nullable=False,
         ),
         sa.Column(
             "referee_id",
-            sa.Integer(),
+            sa.Uuid(),
             sa.ForeignKey("referees.id", ondelete="RESTRICT"),
             nullable=False,
         ),
@@ -366,23 +395,25 @@ def upgrade() -> None:
 
     op.create_table(
         "match_events",
-        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
+        sa.Column(
+            "id", sa.Uuid(), primary_key=True, server_default=sa.text("gen_random_uuid()")
+        ),
         sa.Column(
             "match_id",
-            sa.Integer(),
+            sa.Uuid(),
             sa.ForeignKey("matches.id", ondelete="CASCADE"),
             nullable=False,
         ),
         sa.Column(
             "player_id",
-            sa.Integer(),
+            sa.Uuid(),
             sa.ForeignKey("players.id", ondelete="RESTRICT"),
             nullable=False,
         ),
         # team_id SIEMPRE explícito: nunca derivado de player_registrations
         sa.Column(
             "team_id",
-            sa.Integer(),
+            sa.Uuid(),
             sa.ForeignKey("teams.id", ondelete="RESTRICT"),
             nullable=False,
         ),
@@ -408,7 +439,7 @@ def upgrade() -> None:
         # Jugador secundario: el asistidor en un gol, o quién entra/sale en sustitución
         sa.Column(
             "related_player_id",
-            sa.Integer(),
+            sa.Uuid(),
             sa.ForeignKey("players.id", ondelete="SET NULL"),
             nullable=True,
         ),
@@ -419,22 +450,24 @@ def upgrade() -> None:
 
     op.create_table(
         "standings",
-        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
+        sa.Column(
+            "id", sa.Uuid(), primary_key=True, server_default=sa.text("gen_random_uuid()")
+        ),
         sa.Column(
             "phase_id",
-            sa.Integer(),
+            sa.Uuid(),
             sa.ForeignKey("tournament_phases.id", ondelete="CASCADE"),
             nullable=False,
         ),
         sa.Column(
             "group_id",
-            sa.Integer(),
+            sa.Uuid(),
             sa.ForeignKey("phase_groups.id", ondelete="CASCADE"),
             nullable=True,
         ),
         sa.Column(
             "team_id",
-            sa.Integer(),
+            sa.Uuid(),
             sa.ForeignKey("teams.id", ondelete="RESTRICT"),
             nullable=False,
         ),
@@ -469,10 +502,12 @@ def upgrade() -> None:
 
     op.create_table(
         "suspension_cycles",
-        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
+        sa.Column(
+            "id", sa.Uuid(), primary_key=True, server_default=sa.text("gen_random_uuid()")
+        ),
         sa.Column(
             "player_id",
-            sa.Integer(),
+            sa.Uuid(),
             sa.ForeignKey("players.id", ondelete="CASCADE"),
             nullable=False,
         ),
@@ -481,8 +516,9 @@ def upgrade() -> None:
             sa.Enum("tournament", "phase", name="scope_type_enum"),
             nullable=False,
         ),
-        # scope_id apunta a tournament.id o tournament_phases.id según scope_type
-        sa.Column("scope_id", sa.Integer(), nullable=False),
+        # scope_id apunta a tournaments.id o tournament_phases.id según scope_type.
+        # UUID sin FK constraint porque es una referencia polimórfica manual.
+        sa.Column("scope_id", sa.Uuid(), nullable=False),
         sa.Column(
             "yellow_count_in_cycle",
             sa.Integer(),

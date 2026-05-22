@@ -12,8 +12,10 @@ Derivadas             : standings, suspension_cycles
 """
 
 import enum
+import uuid
 from datetime import date, datetime
 from typing import Optional
+from uuid import UUID
 
 from sqlalchemy import (
     Boolean,
@@ -25,6 +27,7 @@ from sqlalchemy import (
     String,
     Text,
     UniqueConstraint,
+    Uuid,
     func,
 )
 from sqlalchemy.orm import Mapped, mapped_column
@@ -123,7 +126,7 @@ class League(TimestampMixin, Base):
 
     __tablename__ = "leagues"
 
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    id: Mapped[UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
     name: Mapped[str] = mapped_column(String(200), nullable=False)
     country: Mapped[str] = mapped_column(String(100), nullable=False)
     federation: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
@@ -143,7 +146,7 @@ class Team(TimestampMixin, Base):
 
     __tablename__ = "teams"
 
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    id: Mapped[UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
     name: Mapped[str] = mapped_column(String(200), nullable=False)
     short_name: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
     abbreviation: Mapped[Optional[str]] = mapped_column(String(3), nullable=True)
@@ -165,7 +168,7 @@ class Player(TimestampMixin, Base):
 
     __tablename__ = "players"
 
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    id: Mapped[UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
     name: Mapped[str] = mapped_column(String(200), nullable=False)
     birth_date: Mapped[Optional[date]] = mapped_column(Date, nullable=True)
     nationality: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
@@ -180,7 +183,7 @@ class Referee(TimestampMixin, Base):
 
     __tablename__ = "referees"
 
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    id: Mapped[UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
     name: Mapped[str] = mapped_column(String(200), nullable=False)
     nationality: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
@@ -201,8 +204,8 @@ class Season(TimestampMixin, Base):
 
     __tablename__ = "seasons"
 
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    league_id: Mapped[int] = mapped_column(ForeignKey("leagues.id"), nullable=False)
+    id: Mapped[UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    league_id: Mapped[UUID] = mapped_column(Uuid, ForeignKey("leagues.id"), nullable=False)
     display_name: Mapped[str] = mapped_column(String(20), nullable=False)
     start_date: Mapped[date] = mapped_column(Date, nullable=False)
     end_date: Mapped[date] = mapped_column(Date, nullable=False)
@@ -221,9 +224,9 @@ class SeasonTeam(TimestampMixin, Base):
     __tablename__ = "season_teams"
     __table_args__ = (UniqueConstraint("season_id", "team_id", name="uq_season_team"),)
 
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    season_id: Mapped[int] = mapped_column(ForeignKey("seasons.id"), nullable=False)
-    team_id: Mapped[int] = mapped_column(ForeignKey("teams.id"), nullable=False)
+    id: Mapped[UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    season_id: Mapped[UUID] = mapped_column(Uuid, ForeignKey("seasons.id"), nullable=False)
+    team_id: Mapped[UUID] = mapped_column(Uuid, ForeignKey("teams.id"), nullable=False)
 
     def __repr__(self) -> str:
         return f"<SeasonTeam season_id={self.season_id} team_id={self.team_id}>"
@@ -241,10 +244,10 @@ class PlayerRegistration(TimestampMixin, Base):
 
     __tablename__ = "player_registrations"
 
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    player_id: Mapped[int] = mapped_column(ForeignKey("players.id"), nullable=False)
-    team_id: Mapped[int] = mapped_column(ForeignKey("teams.id"), nullable=False)
-    season_id: Mapped[int] = mapped_column(ForeignKey("seasons.id"), nullable=False)
+    id: Mapped[UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    player_id: Mapped[UUID] = mapped_column(Uuid, ForeignKey("players.id"), nullable=False)
+    team_id: Mapped[UUID] = mapped_column(Uuid, ForeignKey("teams.id"), nullable=False)
+    season_id: Mapped[UUID] = mapped_column(Uuid, ForeignKey("seasons.id"), nullable=False)
     jersey_number: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
     start_date: Mapped[date] = mapped_column(Date, nullable=False)
     end_date: Mapped[Optional[date]] = mapped_column(Date, nullable=True)  # NULL = aún activo
@@ -267,8 +270,8 @@ class Tournament(TimestampMixin, Base):
 
     __tablename__ = "tournaments"
 
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    season_id: Mapped[int] = mapped_column(ForeignKey("seasons.id"), nullable=False)
+    id: Mapped[UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    season_id: Mapped[UUID] = mapped_column(Uuid, ForeignKey("seasons.id"), nullable=False)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     order: Mapped[int] = mapped_column(Integer, nullable=False)
     start_date: Mapped[Optional[date]] = mapped_column(Date, nullable=True)
@@ -292,8 +295,8 @@ class TournamentPhase(TimestampMixin, Base):
 
     __tablename__ = "tournament_phases"
 
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    tournament_id: Mapped[int] = mapped_column(ForeignKey("tournaments.id"), nullable=False)
+    id: Mapped[UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    tournament_id: Mapped[UUID] = mapped_column(Uuid, ForeignKey("tournaments.id"), nullable=False)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     phase_type: Mapped[PhaseType] = mapped_column(
         Enum(PhaseType, name="phase_type_enum"), nullable=False
@@ -318,8 +321,8 @@ class PhaseGroup(TimestampMixin, Base):
 
     __tablename__ = "phase_groups"
 
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    phase_id: Mapped[int] = mapped_column(ForeignKey("tournament_phases.id"), nullable=False)
+    id: Mapped[UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    phase_id: Mapped[UUID] = mapped_column(Uuid, ForeignKey("tournament_phases.id"), nullable=False)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
 
     def __repr__(self) -> str:
@@ -331,9 +334,9 @@ class GroupTeam(TimestampMixin, Base):
 
     __tablename__ = "group_teams"
 
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    group_id: Mapped[int] = mapped_column(ForeignKey("phase_groups.id"), nullable=False)
-    team_id: Mapped[int] = mapped_column(ForeignKey("teams.id"), nullable=False)
+    id: Mapped[UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    group_id: Mapped[UUID] = mapped_column(Uuid, ForeignKey("phase_groups.id"), nullable=False)
+    team_id: Mapped[UUID] = mapped_column(Uuid, ForeignKey("teams.id"), nullable=False)
     seed: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
 
     def __repr__(self) -> str:
@@ -351,10 +354,10 @@ class Round(TimestampMixin, Base):
 
     __tablename__ = "rounds"
 
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    phase_id: Mapped[int] = mapped_column(ForeignKey("tournament_phases.id"), nullable=False)
-    group_id: Mapped[Optional[int]] = mapped_column(
-        ForeignKey("phase_groups.id"), nullable=True
+    id: Mapped[UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    phase_id: Mapped[UUID] = mapped_column(Uuid, ForeignKey("tournament_phases.id"), nullable=False)
+    group_id: Mapped[Optional[UUID]] = mapped_column(
+        Uuid, ForeignKey("phase_groups.id"), nullable=True
     )
     number: Mapped[int] = mapped_column(Integer, nullable=False)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
@@ -380,14 +383,14 @@ class Match(TimestampMixin, Base):
 
     __tablename__ = "matches"
 
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    round_id: Mapped[int] = mapped_column(ForeignKey("rounds.id"), nullable=False)
-    home_team_id: Mapped[int] = mapped_column(ForeignKey("teams.id"), nullable=False)
-    away_team_id: Mapped[int] = mapped_column(ForeignKey("teams.id"), nullable=False)
+    id: Mapped[UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    round_id: Mapped[UUID] = mapped_column(Uuid, ForeignKey("rounds.id"), nullable=False)
+    home_team_id: Mapped[UUID] = mapped_column(Uuid, ForeignKey("teams.id"), nullable=False)
+    away_team_id: Mapped[UUID] = mapped_column(Uuid, ForeignKey("teams.id"), nullable=False)
     tie_id: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
-    leg: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
-    reverse_of_match_id: Mapped[Optional[int]] = mapped_column(
-        ForeignKey("matches.id"), nullable=True
+    leg: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)  # 1=ida, 2=vuelta
+    reverse_of_match_id: Mapped[Optional[UUID]] = mapped_column(
+        Uuid, ForeignKey("matches.id"), nullable=True
     )
     scheduled_datetime: Mapped[Optional[datetime]] = mapped_column(
         DateTime(timezone=True), nullable=True
@@ -414,9 +417,9 @@ class MatchOfficial(TimestampMixin, Base):
 
     __tablename__ = "match_officials"
 
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    match_id: Mapped[int] = mapped_column(ForeignKey("matches.id"), nullable=False)
-    referee_id: Mapped[int] = mapped_column(ForeignKey("referees.id"), nullable=False)
+    id: Mapped[UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    match_id: Mapped[UUID] = mapped_column(Uuid, ForeignKey("matches.id"), nullable=False)
+    referee_id: Mapped[UUID] = mapped_column(Uuid, ForeignKey("referees.id"), nullable=False)
     role: Mapped[RefereeRole] = mapped_column(
         Enum(RefereeRole, name="referee_role_enum"), nullable=False
     )
@@ -443,17 +446,17 @@ class MatchEvent(TimestampMixin, Base):
 
     __tablename__ = "match_events"
 
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    match_id: Mapped[int] = mapped_column(ForeignKey("matches.id"), nullable=False)
-    player_id: Mapped[int] = mapped_column(ForeignKey("players.id"), nullable=False)
-    team_id: Mapped[int] = mapped_column(ForeignKey("teams.id"), nullable=False)
+    id: Mapped[UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    match_id: Mapped[UUID] = mapped_column(Uuid, ForeignKey("matches.id"), nullable=False)
+    player_id: Mapped[UUID] = mapped_column(Uuid, ForeignKey("players.id"), nullable=False)
+    team_id: Mapped[UUID] = mapped_column(Uuid, ForeignKey("teams.id"), nullable=False)
     event_type: Mapped[EventType] = mapped_column(
         Enum(EventType, name="event_type_enum"), nullable=False
     )
     minute: Mapped[int] = mapped_column(Integer, nullable=False)
     added_time: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
-    related_player_id: Mapped[Optional[int]] = mapped_column(
-        ForeignKey("players.id"), nullable=True
+    related_player_id: Mapped[Optional[UUID]] = mapped_column(
+        Uuid, ForeignKey("players.id"), nullable=True
     )
 
     def __repr__(self) -> str:
@@ -478,12 +481,12 @@ class Standing(TimestampMixin, Base):
         UniqueConstraint("phase_id", "group_id", "team_id", name="uq_standing"),
     )
 
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    phase_id: Mapped[int] = mapped_column(ForeignKey("tournament_phases.id"), nullable=False)
-    group_id: Mapped[Optional[int]] = mapped_column(
-        ForeignKey("phase_groups.id"), nullable=True
+    id: Mapped[UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    phase_id: Mapped[UUID] = mapped_column(Uuid, ForeignKey("tournament_phases.id"), nullable=False)
+    group_id: Mapped[Optional[UUID]] = mapped_column(
+        Uuid, ForeignKey("phase_groups.id"), nullable=True
     )
-    team_id: Mapped[int] = mapped_column(ForeignKey("teams.id"), nullable=False)
+    team_id: Mapped[UUID] = mapped_column(Uuid, ForeignKey("teams.id"), nullable=False)
     played: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
     won: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
     drawn: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
@@ -516,16 +519,20 @@ class SuspensionCycle(TimestampMixin, Base):
     scope_type + scope_id definen el ámbito del ciclo:
       - 'tournament' + tournament_id: acumula en todo el torneo
       - 'phase' + phase_id: se reinicia al pasar de fase
+
+    NOTA: scope_id es Integer porque es una referencia polimórfica manual
+    (puede apuntar a tournaments.id o tournament_phases.id según scope_type).
+    No tiene FK constraint a propósito.
     """
 
     __tablename__ = "suspension_cycles"
 
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    player_id: Mapped[int] = mapped_column(ForeignKey("players.id"), nullable=False)
+    id: Mapped[UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    player_id: Mapped[UUID] = mapped_column(Uuid, ForeignKey("players.id"), nullable=False)
     scope_type: Mapped[ScopeType] = mapped_column(
         Enum(ScopeType, name="scope_type_enum"), nullable=False
     )
-    scope_id: Mapped[int] = mapped_column(Integer, nullable=False)
+    scope_id: Mapped[UUID] = mapped_column(Uuid, nullable=False)
     yellow_count_in_cycle: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
     threshold: Mapped[int] = mapped_column(Integer, default=4, nullable=False)
     is_suspended: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
