@@ -75,10 +75,10 @@ export function StandingsRow({
       <td className="px-1.5 py-1.5 text-center font-medium text-loss">
         {row.lost}
       </td>
-      <td className="px-1.5 py-1.5 text-center text-muted-foreground">
+      <td className="hidden px-1.5 py-1.5 text-center text-muted-foreground sm:table-cell">
         {row.goalsFor}
       </td>
-      <td className="px-1.5 py-1.5 text-center text-muted-foreground">
+      <td className="hidden px-1.5 py-1.5 text-center text-muted-foreground sm:table-cell">
         {row.goalsAgainst}
       </td>
       <td

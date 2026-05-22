@@ -60,10 +60,10 @@ export function StandingsTable({
             <th className="w-7 px-1.5 py-1.5 text-center font-medium">
               {columns.lost}
             </th>
-            <th className="w-8 px-1.5 py-1.5 text-center font-medium">
+            <th className="hidden w-8 px-1.5 py-1.5 text-center font-medium sm:table-cell">
               {columns.goalsFor}
             </th>
-            <th className="w-8 px-1.5 py-1.5 text-center font-medium">
+            <th className="hidden w-8 px-1.5 py-1.5 text-center font-medium sm:table-cell">
               {columns.goalsAgainst}
             </th>
             <th className="w-8 px-1.5 py-1.5 text-center font-medium">
