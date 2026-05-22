@@ -1,10 +1,12 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Security
 
 from app.api.v1 import teams
+from app.dependencies.auth import verify_api_key
 
-# Router principal de v1 — agrega todos los sub-routers aquí.
-# Para añadir un recurso nuevo: importarlo y agregar una línea include_router.
-router = APIRouter()
+# Router principal de v1 — todos los endpoints bajo /api/v1 requieren x-api-key.
+# Security (en lugar de Depends) hace que FastAPI incluya el esquema en OpenAPI
+# y muestre el botón "Authorize" en Swagger UI.
+router = APIRouter(dependencies=[Security(verify_api_key)])
 
 router.include_router(teams.router)
 

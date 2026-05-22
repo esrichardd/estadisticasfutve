@@ -11,6 +11,9 @@ class Settings(BaseSettings):
     # CORS — orígenes permitidos para el frontend
     cors_origins: list[str] = ["http://localhost:3000"]
 
+    # Seguridad — API key requerida en el header x-api-key
+    api_key: str
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
