@@ -6,6 +6,9 @@ import { PlayerLeaderRow } from "./player-leader-row";
 type LeaderboardCardProps = {
   title: string;
   statLabel: string;
+  topStatLabel: string;
+  roundLabel: string;
+  emptyLabel: string;
   leaders: PlayerLeader[];
   type: "scorers" | "assisters";
 };
@@ -13,6 +16,9 @@ type LeaderboardCardProps = {
 export function LeaderboardCard({
   title,
   statLabel,
+  topStatLabel,
+  roundLabel,
+  emptyLabel,
   leaders,
   type,
 }: LeaderboardCardProps) {
@@ -32,7 +38,7 @@ export function LeaderboardCard({
             {title}
           </h2>
         </div>
-        <span className="text-[10px] text-muted-foreground">Jornada 8</span>
+        <span className="text-[10px] text-muted-foreground">{roundLabel}</span>
       </div>
 
       {topLeader ? (
@@ -61,7 +67,7 @@ export function LeaderboardCard({
               {topLeader.value}
             </span>
             <p className="text-[10px] text-muted-foreground">
-              {isScorers ? "goles" : "asist."}
+              {topStatLabel}
             </p>
           </div>
         </div>
@@ -80,7 +86,7 @@ export function LeaderboardCard({
         </ol>
       ) : (
         <p className="px-3 py-4 text-xs text-muted-foreground">
-          Sin registros disponibles.
+          {emptyLabel}
         </p>
       )}
     </article>

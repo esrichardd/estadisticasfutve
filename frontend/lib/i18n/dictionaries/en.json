@@ -1,0 +1,104 @@
+{
+  "metadata": {
+    "title": "FUTVE Stats - Liga FUTVE 2026",
+    "description": "The statistics portal for Venezuelan football. Standings, results, scorers and more from Liga FUTVE.",
+    "keywords": [
+      "Venezuelan football",
+      "Liga FUTVE",
+      "stats",
+      "standings",
+      "Táchira",
+      "Caracas FC"
+    ]
+  },
+  "shell": {
+    "brand": {
+      "prefix": "FUTVE",
+      "accent": "Stats",
+      "short": "FV"
+    },
+    "nav": ["Home", "Matches", "Table", "Teams", "Players"],
+    "footerBrand": "FUTVE Stats",
+    "footerNote": "Liga FUTVE 2026 Apertura · Informational data"
+  },
+  "home": {
+    "summary": {
+      "updated": "Updated",
+      "notUpdated": "Not updated",
+      "leader": "Leader",
+      "totalGoals": "Total goals",
+      "matches": "Matches",
+      "next": "Next",
+      "pointsAbbr": "pts",
+      "playedMatches": "matches",
+      "played": "played",
+      "nextMatchTime": "May 24 · 19:00"
+    },
+    "standings": {
+      "title": "Standings",
+      "round": "Matchday 8",
+      "classification": "Qualification",
+      "relegation": "Relegation",
+      "winShort": "W",
+      "drawShort": "D",
+      "lossShort": "L",
+      "tableUnavailable": "Table is not available for this phase.",
+      "recentForm": "Recent form",
+      "columns": {
+        "team": "Team",
+        "played": "MP",
+        "won": "W",
+        "drawn": "D",
+        "lost": "L",
+        "goalsFor": "GF",
+        "goalsAgainst": "GA",
+        "goalDifference": "GD",
+        "form": "Form",
+        "points": "PTS"
+      },
+      "form": {
+        "W": "Win",
+        "D": "Draw",
+        "L": "Loss"
+      }
+    },
+    "rounds": {
+      "latestRound": "Latest Matchday",
+      "roundShort": "MD",
+      "round": "Matchday",
+      "empty": "No matches available.",
+      "liveMatchSingular": "live match",
+      "liveMatchPlural": "live matches",
+      "status": {
+        "finished": "Final",
+        "scheduledShort": "Sch."
+      }
+    },
+    "leaders": {
+      "round": "Matchday 8",
+      "scorersTitle": "Top scorers",
+      "assistersTitle": "Top assisters",
+      "goals": "Goals",
+      "assists": "Assists",
+      "goalsShort": "goals",
+      "assistsShort": "ast.",
+      "empty": "No records available."
+    },
+    "highlights": {
+      "title": "Team Highlights",
+      "bestAttack": "Best Attack",
+      "bestDefense": "Best Defense",
+      "bestGoalDifference": "Best Goal Difference",
+      "goals": "goals",
+      "conceded": "conceded",
+      "goalDifference": "goal diff."
+    },
+    "matchStatus": {
+      "scheduled": "Scheduled",
+      "live": "Live",
+      "finished": "Final",
+      "postponed": "Postponed",
+      "cancelled": "Cancelled"
+    }
+  }
+}

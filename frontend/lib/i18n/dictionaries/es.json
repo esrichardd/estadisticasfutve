@@ -1,0 +1,104 @@
+{
+  "metadata": {
+    "title": "Estadísticas FUTVE - Liga FUTVE 2026",
+    "description": "El portal de estadísticas del fútbol venezolano. Tabla de posiciones, resultados, goleadores y más de la Liga FUTVE.",
+    "keywords": [
+      "fútbol venezolano",
+      "liga FUTVE",
+      "estadísticas",
+      "tabla de posiciones",
+      "Táchira",
+      "Caracas FC"
+    ]
+  },
+  "shell": {
+    "brand": {
+      "prefix": "Estadísticas",
+      "accent": "FUTVE",
+      "short": "FV"
+    },
+    "nav": ["Inicio", "Partidos", "Tabla", "Equipos", "Jugadores"],
+    "footerBrand": "Estadísticas FUTVE",
+    "footerNote": "Liga FUTVE 2026 Apertura · Datos con fines informativos"
+  },
+  "home": {
+    "summary": {
+      "updated": "Actualizado",
+      "notUpdated": "Sin actualizar",
+      "leader": "Líder",
+      "totalGoals": "Total goles",
+      "matches": "Partidos",
+      "next": "Próximo",
+      "pointsAbbr": "pts",
+      "playedMatches": "partidos",
+      "played": "jugados",
+      "nextMatchTime": "24 May · 19:00"
+    },
+    "standings": {
+      "title": "Tabla de Posiciones",
+      "round": "Jornada 8",
+      "classification": "Clasificación",
+      "relegation": "Descenso",
+      "winShort": "V",
+      "drawShort": "E",
+      "lossShort": "D",
+      "tableUnavailable": "Tabla no disponible para esta fase.",
+      "recentForm": "Forma reciente",
+      "columns": {
+        "team": "Equipo",
+        "played": "PJ",
+        "won": "G",
+        "drawn": "E",
+        "lost": "P",
+        "goalsFor": "GF",
+        "goalsAgainst": "GC",
+        "goalDifference": "DG",
+        "form": "Forma",
+        "points": "PTS"
+      },
+      "form": {
+        "W": "Victoria",
+        "D": "Empate",
+        "L": "Derrota"
+      }
+    },
+    "rounds": {
+      "latestRound": "Última Jornada",
+      "roundShort": "J",
+      "round": "Jornada",
+      "empty": "No hay partidos disponibles.",
+      "liveMatchSingular": "partido en vivo",
+      "liveMatchPlural": "partidos en vivo",
+      "status": {
+        "finished": "Final",
+        "scheduledShort": "Prog."
+      }
+    },
+    "leaders": {
+      "round": "Jornada 8",
+      "scorersTitle": "Máximos goleadores",
+      "assistersTitle": "Máximos asistentes",
+      "goals": "Goles",
+      "assists": "Asistencias",
+      "goalsShort": "goles",
+      "assistsShort": "asist.",
+      "empty": "Sin registros disponibles."
+    },
+    "highlights": {
+      "title": "Destacados por Equipo",
+      "bestAttack": "Mejor Ataque",
+      "bestDefense": "Mejor Defensa",
+      "bestGoalDifference": "Mayor Diferencia",
+      "goals": "goles",
+      "conceded": "recibidos",
+      "goalDifference": "dif. goles"
+    },
+    "matchStatus": {
+      "scheduled": "Programado",
+      "live": "En vivo",
+      "finished": "Final",
+      "postponed": "Postergado",
+      "cancelled": "Cancelado"
+    }
+  }
+}

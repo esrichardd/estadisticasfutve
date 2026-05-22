@@ -2,28 +2,32 @@ import type { FormResult } from "../../types/shared";
 
 type FormIndicatorProps = {
   form: FormResult[];
+  labels: {
+    W: string;
+    D: string;
+    L: string;
+  };
+  recentFormLabel: string;
 };
 
-const label = {
-  W: "Victoria",
-  D: "Empate",
-  L: "Derrota",
-};
-
-export function FormIndicator({ form }: FormIndicatorProps) {
+export function FormIndicator({
+  form,
+  labels,
+  recentFormLabel,
+}: FormIndicatorProps) {
   return (
     <div
       className="flex items-center justify-center gap-0.5"
-      aria-label="Forma reciente"
+      aria-label={recentFormLabel}
     >
       {form.map((result, index) => (
         <span
-          aria-label={label[result]}
+          aria-label={labels[result]}
           className={`inline-block h-2 w-2 rounded-full ${
             result === "W" ? "bg-win" : result === "D" ? "bg-draw" : "bg-loss"
           }`}
           key={`${result}-${index}`}
-          title={label[result]}
+          title={labels[result]}
         />
       ))}
     </div>

@@ -1,10 +1,18 @@
 type HomeShellProps = {
   children: React.ReactNode;
+  labels: {
+    brand: {
+      prefix: string;
+      accent: string;
+      short: string;
+    };
+    nav: string[];
+    footerBrand: string;
+    footerNote: string;
+  };
 };
 
-const navLinks = ["Inicio", "Partidos", "Tabla", "Equipos", "Jugadores"];
-
-export function HomeShell({ children }: HomeShellProps) {
+export function HomeShell({ children, labels }: HomeShellProps) {
   return (
     <div className="min-h-screen bg-background">
       <nav className="sticky top-0 z-50 border-b border-border bg-card">
@@ -12,16 +20,17 @@ export function HomeShell({ children }: HomeShellProps) {
           <div className="flex items-center gap-2.5">
             <div className="flex h-7 w-7 items-center justify-center rounded-sm bg-primary">
               <span className="text-[10px] font-black tracking-tight text-primary-foreground">
-                FV
+                {labels.brand.short}
               </span>
             </div>
             <span className="text-sm font-bold tracking-wide text-foreground">
-              Estadísticas <span className="text-secondary">FUTVE</span>
+              {labels.brand.prefix}{" "}
+              <span className="text-secondary">{labels.brand.accent}</span>
             </span>
           </div>
 
           <ul className="hidden items-center gap-1 md:flex">
-            {navLinks.map((link, index) => (
+            {labels.nav.map((link, index) => (
               <li key={link}>
                 <a
                   className={`rounded-sm px-3 py-1.5 text-sm font-medium transition-colors ${
@@ -48,15 +57,15 @@ export function HomeShell({ children }: HomeShellProps) {
           <div className="flex items-center gap-2">
             <div className="flex h-5 w-5 items-center justify-center rounded-sm bg-primary">
               <span className="text-[8px] font-black text-primary-foreground">
-                FV
+                {labels.brand.short}
               </span>
             </div>
             <span className="text-xs font-semibold text-muted-foreground">
-              Estadísticas FUTVE
+              {labels.footerBrand}
             </span>
           </div>
           <p className="text-[11px] text-muted-foreground">
-            Liga FUTVE 2026 Apertura · Datos con fines informativos
+            {labels.footerNote}
           </p>
         </div>
       </footer>

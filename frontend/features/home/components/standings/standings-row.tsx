@@ -4,9 +4,19 @@ import { FormIndicator } from "./form-indicator";
 
 type StandingsRowProps = {
   row: HomeStandingRow;
+  recentFormLabel: string;
+  formLabels: {
+    W: string;
+    D: string;
+    L: string;
+  };
 };
 
-export function StandingsRow({ row }: StandingsRowProps) {
+export function StandingsRow({
+  formLabels,
+  recentFormLabel,
+  row,
+}: StandingsRowProps) {
   const goalDifference =
     row.goalDifference > 0 ? `+${row.goalDifference}` : row.goalDifference;
   const isLeader = row.position === 1;
@@ -83,7 +93,11 @@ export function StandingsRow({ row }: StandingsRowProps) {
         {goalDifference}
       </td>
       <td className="px-1.5 py-1.5">
-        <FormIndicator form={row.form} />
+        <FormIndicator
+          form={row.form}
+          labels={formLabels}
+          recentFormLabel={recentFormLabel}
+        />
       </td>
       <td className="px-2 py-1.5 text-center">
         <span

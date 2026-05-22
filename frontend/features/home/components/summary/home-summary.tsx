@@ -3,7 +3,22 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { getHomeSummary } from "../../api/get-home-summary";
 import { formatLastUpdated } from "../../utils/format-date";
 
-type HomeSummaryProps = { skeleton: true } | { skeleton?: false };
+type HomeSummaryLabels = {
+  updated: string;
+  notUpdated: string;
+  leader: string;
+  totalGoals: string;
+  matches: string;
+  next: string;
+  pointsAbbr: string;
+  playedMatches: string;
+  played: string;
+  nextMatchTime: string;
+};
+
+type HomeSummaryProps =
+  | { skeleton: true }
+  | { skeleton?: false; labels: HomeSummaryLabels; formatLocale: string };
 
 type MetricCardProps = {
   icon: React.ReactNode;
@@ -29,8 +44,8 @@ function MetricCard({ icon, label, value, sub }: MetricCardProps) {
   );
 }
 
-export async function HomeSummary({ skeleton = false }: HomeSummaryProps) {
-  if (skeleton) {
+export async function HomeSummary(props: HomeSummaryProps) {
+  if (props.skeleton) {
     return (
       <section className="border-b border-border bg-card">
         <div className="mx-auto max-w-[1400px] px-0 py-0">
@@ -47,6 +62,7 @@ export async function HomeSummary({ skeleton = false }: HomeSummaryProps) {
   }
 
   const summary = await getHomeSummary();
+  const { formatLocale, labels } = props;
 
   return (
     <section className="border-b border-border bg-card">
@@ -67,33 +83,38 @@ export async function HomeSummary({ skeleton = false }: HomeSummaryProps) {
             </span>
           </div>
           <span className="text-[11px] text-muted-foreground">
-            Actualizado {formatLastUpdated(summary.lastUpdated)}
+            {labels.updated}{" "}
+            {formatLastUpdated(
+              summary.lastUpdated,
+              formatLocale,
+              labels.notUpdated,
+            )}
           </span>
         </div>
 
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
           <MetricCard
             icon={<Trophy size={14} />}
-            label="Líder"
-            sub={`${summary.metrics.leader.points} pts`}
+            label={labels.leader}
+            sub={`${summary.metrics.leader.points} ${labels.pointsAbbr}`}
             value={summary.metrics.leader.teamName}
           />
           <MetricCard
             icon={<Crosshair size={14} />}
-            label="Total goles"
-            sub={`${summary.metrics.playedMatches} partidos`}
+            label={labels.totalGoals}
+            sub={`${summary.metrics.playedMatches} ${labels.playedMatches}`}
             value={String(summary.metrics.totalGoals)}
           />
           <MetricCard
             icon={<Calendar size={14} />}
-            label="Partidos"
+            label={labels.matches}
             sub={summary.currentRound?.name}
-            value={`${summary.metrics.playedMatches} jugados`}
+            value={`${summary.metrics.playedMatches} ${labels.played}`}
           />
           <MetricCard
             icon={<Zap size={14} />}
-            label="Próximo"
-            sub="24 May · 19:00"
+            label={labels.next}
+            sub={labels.nextMatchTime}
             value={summary.metrics.nextMatch}
           />
         </div>

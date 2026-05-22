@@ -2,10 +2,25 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { getHomeRounds } from "../../api/get-home-rounds";
 import { RoundsTabs } from "./rounds-tabs";
 
-type HomeRoundsProps = { skeleton: true } | { skeleton?: false };
+type HomeRoundsLabels = {
+  latestRound: string;
+  roundShort: string;
+  round: string;
+  empty: string;
+  liveMatchSingular: string;
+  liveMatchPlural: string;
+  status: {
+    finished: string;
+    scheduledShort: string;
+  };
+};
 
-export async function HomeRounds({ skeleton = false }: HomeRoundsProps) {
-  if (skeleton) {
+type HomeRoundsProps =
+  | { skeleton: true }
+  | { skeleton?: false; labels: HomeRoundsLabels; formatLocale: string };
+
+export async function HomeRounds(props: HomeRoundsProps) {
+  if (props.skeleton) {
     return (
       <section className="overflow-hidden rounded-sm border border-border bg-card">
         <div className="grid grid-cols-2 border-b border-border">
@@ -21,5 +36,12 @@ export async function HomeRounds({ skeleton = false }: HomeRoundsProps) {
 
   const rounds = await getHomeRounds();
 
-  return <RoundsTabs latest={rounds.latest} next={rounds.next} />;
+  return (
+    <RoundsTabs
+      formatLocale={props.formatLocale}
+      labels={props.labels}
+      latest={rounds.latest}
+      next={rounds.next}
+    />
+  );
 }

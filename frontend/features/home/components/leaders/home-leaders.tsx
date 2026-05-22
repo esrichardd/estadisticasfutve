@@ -2,10 +2,23 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { getHomeLeaders } from "../../api/get-home-leaders";
 import { LeaderboardCard } from "./leaderboard-card";
 
-type HomeLeadersProps = { skeleton: true } | { skeleton?: false };
+type HomeLeadersLabels = {
+  round: string;
+  scorersTitle: string;
+  assistersTitle: string;
+  goals: string;
+  assists: string;
+  goalsShort: string;
+  assistsShort: string;
+  empty: string;
+};
 
-export async function HomeLeaders({ skeleton = false }: HomeLeadersProps) {
-  if (skeleton) {
+type HomeLeadersProps =
+  | { skeleton: true }
+  | { skeleton?: false; labels: HomeLeadersLabels };
+
+export async function HomeLeaders(props: HomeLeadersProps) {
+  if (props.skeleton) {
     return (
       <>
         {Array.from({ length: 2 }).map((_, cardIndex) => (
@@ -29,19 +42,26 @@ export async function HomeLeaders({ skeleton = false }: HomeLeadersProps) {
   }
 
   const leaders = await getHomeLeaders();
+  const { labels } = props;
 
   return (
     <>
       <LeaderboardCard
+        emptyLabel={labels.empty}
         leaders={leaders.scorers}
-        statLabel="Goles"
-        title="Máximos goleadores"
+        roundLabel={labels.round}
+        statLabel={labels.goals}
+        title={labels.scorersTitle}
+        topStatLabel={labels.goalsShort}
         type="scorers"
       />
       <LeaderboardCard
+        emptyLabel={labels.empty}
         leaders={leaders.assisters}
-        statLabel="Asistencias"
-        title="Máximos asistentes"
+        roundLabel={labels.round}
+        statLabel={labels.assists}
+        title={labels.assistersTitle}
+        topStatLabel={labels.assistsShort}
         type="assisters"
       />
     </>

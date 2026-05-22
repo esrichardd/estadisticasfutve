@@ -3,13 +3,38 @@ import { StandingsRow } from "./standings-row";
 
 type StandingsTableProps = {
   rows: HomeStandingRow[];
+  tableUnavailableLabel: string;
+  recentFormLabel: string;
+  columns: {
+    team: string;
+    played: string;
+    won: string;
+    drawn: string;
+    lost: string;
+    goalsFor: string;
+    goalsAgainst: string;
+    goalDifference: string;
+    form: string;
+    points: string;
+  };
+  formLabels: {
+    W: string;
+    D: string;
+    L: string;
+  };
 };
 
-export function StandingsTable({ rows }: StandingsTableProps) {
+export function StandingsTable({
+  columns,
+  formLabels,
+  recentFormLabel,
+  rows,
+  tableUnavailableLabel,
+}: StandingsTableProps) {
   if (rows.length === 0) {
     return (
       <p className="px-3 py-6 text-xs text-muted-foreground">
-        Tabla no disponible para esta fase.
+        {tableUnavailableLabel}
       </p>
     );
   }
@@ -20,25 +45,46 @@ export function StandingsTable({ rows }: StandingsTableProps) {
         <thead>
           <tr className="border-b border-border text-muted-foreground">
             <th className="w-7 px-2 py-1.5 text-left font-medium">#</th>
-            <th className="px-2 py-1.5 text-left font-medium">Equipo</th>
-            <th className="w-7 px-1.5 py-1.5 text-center font-medium">PJ</th>
-            <th className="w-7 px-1.5 py-1.5 text-center font-medium">G</th>
-            <th className="w-7 px-1.5 py-1.5 text-center font-medium">E</th>
-            <th className="w-7 px-1.5 py-1.5 text-center font-medium">P</th>
-            <th className="w-8 px-1.5 py-1.5 text-center font-medium">GF</th>
-            <th className="w-8 px-1.5 py-1.5 text-center font-medium">GC</th>
-            <th className="w-8 px-1.5 py-1.5 text-center font-medium">DG</th>
+            <th className="px-2 py-1.5 text-left font-medium">
+              {columns.team}
+            </th>
+            <th className="w-7 px-1.5 py-1.5 text-center font-medium">
+              {columns.played}
+            </th>
+            <th className="w-7 px-1.5 py-1.5 text-center font-medium">
+              {columns.won}
+            </th>
+            <th className="w-7 px-1.5 py-1.5 text-center font-medium">
+              {columns.drawn}
+            </th>
+            <th className="w-7 px-1.5 py-1.5 text-center font-medium">
+              {columns.lost}
+            </th>
+            <th className="w-8 px-1.5 py-1.5 text-center font-medium">
+              {columns.goalsFor}
+            </th>
+            <th className="w-8 px-1.5 py-1.5 text-center font-medium">
+              {columns.goalsAgainst}
+            </th>
+            <th className="w-8 px-1.5 py-1.5 text-center font-medium">
+              {columns.goalDifference}
+            </th>
             <th className="w-16 whitespace-nowrap px-1.5 py-1.5 text-center font-medium">
-              Forma
+              {columns.form}
             </th>
             <th className="w-10 px-2 py-1.5 text-center font-bold text-secondary">
-              PTS
+              {columns.points}
             </th>
           </tr>
         </thead>
         <tbody>
           {rows.map((row) => (
-            <StandingsRow key={row.team.id} row={row} />
+            <StandingsRow
+              formLabels={formLabels}
+              key={row.team.id}
+              recentFormLabel={recentFormLabel}
+              row={row}
+            />
           ))}
         </tbody>
       </table>

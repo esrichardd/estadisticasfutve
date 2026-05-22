@@ -3,12 +3,22 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { getHomeHighlights } from "../../api/get-home-highlights";
 import { TeamHighlightCard } from "./team-highlight-card";
 
-type HomeHighlightsProps = { skeleton: true } | { skeleton?: false };
+type HomeHighlightsLabels = {
+  title: string;
+  bestAttack: string;
+  bestDefense: string;
+  bestGoalDifference: string;
+  goals: string;
+  conceded: string;
+  goalDifference: string;
+};
 
-export async function HomeHighlights({
-  skeleton = false,
-}: HomeHighlightsProps) {
-  if (skeleton) {
+type HomeHighlightsProps =
+  | { skeleton: true }
+  | { skeleton?: false; labels: HomeHighlightsLabels };
+
+export async function HomeHighlights(props: HomeHighlightsProps) {
+  if (props.skeleton) {
     return (
       <section className="overflow-hidden rounded-sm border border-border bg-card p-3">
         <div className="mb-3">
@@ -24,12 +34,13 @@ export async function HomeHighlights({
   }
 
   const highlights = await getHomeHighlights();
+  const { labels } = props;
 
   return (
     <section className="overflow-hidden rounded-sm border border-border bg-card">
       <div className="border-b border-border px-3 py-2">
         <h2 className="text-xs font-bold uppercase tracking-widest text-foreground">
-          Destacados por Equipo
+          {labels.title}
         </h2>
       </div>
 
@@ -38,10 +49,10 @@ export async function HomeHighlights({
           <div className="p-3">
             <TeamHighlightCard
               icon={<Swords size={14} />}
-              label="Mejor Ataque"
+              label={labels.bestAttack}
               team={highlights.bestAttack.team}
               value={String(highlights.bestAttack.goalsFor)}
-              valueLabel="goles"
+              valueLabel={labels.goals}
             />
           </div>
         ) : null}
@@ -49,10 +60,10 @@ export async function HomeHighlights({
           <div className="p-3">
             <TeamHighlightCard
               icon={<Shield size={14} />}
-              label="Mejor Defensa"
+              label={labels.bestDefense}
               team={highlights.bestDefense.team}
               value={String(highlights.bestDefense.goalsAgainst)}
-              valueLabel="recibidos"
+              valueLabel={labels.conceded}
             />
           </div>
         ) : null}
@@ -60,10 +71,10 @@ export async function HomeHighlights({
           <div className="p-3">
             <TeamHighlightCard
               icon={<TrendingUp size={14} />}
-              label="Mayor Diferencia"
+              label={labels.bestGoalDifference}
               team={highlights.bestGoalDifference.team}
               value={`+${highlights.bestGoalDifference.goalDifference}`}
-              valueLabel="dif. goles"
+              valueLabel={labels.goalDifference}
             />
           </div>
         ) : null}

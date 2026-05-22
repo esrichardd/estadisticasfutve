@@ -1,11 +1,23 @@
 import { TeamLogo } from "../team-logo";
 import type { HomeMatch } from "../../types/rounds";
+import { formatShortTime } from "../../utils/format-date";
 
 type MatchCardProps = {
   match: HomeMatch;
+  formatLocale: string;
+  labels: {
+    finished: string;
+    scheduledShort: string;
+  };
 };
 
-function StatusBadge({ match }: { match: HomeMatch }) {
+function StatusBadge({
+  labels,
+  match,
+}: {
+  labels: MatchCardProps["labels"];
+  match: HomeMatch;
+}) {
   if (match.status === "live") {
     return (
       <div className="flex items-center gap-1 rounded-sm border border-win/30 bg-win/10 px-1.5 py-0.5">
@@ -21,7 +33,7 @@ function StatusBadge({ match }: { match: HomeMatch }) {
     return (
       <div className="rounded-sm border border-border bg-muted px-1.5 py-0.5">
         <span className="text-[10px] font-medium text-muted-foreground">
-          Final
+          {labels.finished}
         </span>
       </div>
     );
@@ -30,19 +42,16 @@ function StatusBadge({ match }: { match: HomeMatch }) {
   return (
     <div className="rounded-sm border border-primary/20 bg-primary/10 px-1.5 py-0.5">
       <span className="text-[10px] font-medium text-primary-foreground/70">
-        Prog.
+        {labels.scheduledShort}
       </span>
     </div>
   );
 }
 
-export function MatchCard({ match }: MatchCardProps) {
+export function MatchCard({ formatLocale, labels, match }: MatchCardProps) {
   const isLive = match.status === "live";
   const hasScore = match.homeScore !== null && match.awayScore !== null;
-  const kickoff = new Intl.DateTimeFormat("es-VE", {
-    hour: "2-digit",
-    minute: "2-digit",
-  }).format(new Date(match.scheduledDatetime));
+  const kickoff = formatShortTime(match.scheduledDatetime, formatLocale);
 
   return (
     <article
@@ -83,7 +92,7 @@ export function MatchCard({ match }: MatchCardProps) {
         ) : (
           <span className="text-xs font-bold text-secondary">{kickoff}</span>
         )}
-        <StatusBadge match={match} />
+        <StatusBadge labels={labels} match={match} />
       </div>
 
       <div className="flex min-w-0 flex-1 items-center justify-start gap-1.5">
