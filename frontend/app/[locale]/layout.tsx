@@ -48,7 +48,10 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} className={`${inter.variable} bg-background dark`}>
-      <body className="min-h-screen bg-background font-sans text-foreground antialiased">
+      <body
+        className="min-h-screen bg-background font-sans text-foreground antialiased"
+        suppressHydrationWarning
+      >
         {children}
       </body>
     </html>
