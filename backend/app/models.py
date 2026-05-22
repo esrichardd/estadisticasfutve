@@ -67,16 +67,16 @@ class RefereeRole(str, enum.Enum):
 class EventType(str, enum.Enum):
     """Tipo de evento registrado en un partido."""
 
-    goal = "goal"                       # Gol
-    own_goal = "own_goal"               # Autogol
-    assist = "assist"                   # Asistencia
-    yellow_card = "yellow_card"         # Tarjeta amarilla
-    second_yellow = "second_yellow"     # Segunda amarilla (implica expulsión)
-    red_card = "red_card"               # Roja directa
+    goal = "goal"                         # Gol
+    own_goal = "own_goal"                 # Autogol
+    assist = "assist"                     # Asistencia
+    yellow_card = "yellow_card"           # Tarjeta amarilla
+    second_yellow = "second_yellow"       # Segunda amarilla (implica expulsión)
+    red_card = "red_card"                 # Roja directa
     substitution_in = "substitution_in"   # Jugador que entra
     substitution_out = "substitution_out" # Jugador que sale
-    penalty_miss = "penalty_miss"       # Penalti fallado
-    penalty_saved = "penalty_saved"     # Penalti atajado
+    penalty_miss = "penalty_miss"         # Penalti fallado
+    penalty_saved = "penalty_saved"       # Penalti atajado
 
 
 class ScopeType(str, enum.Enum):
@@ -86,10 +86,36 @@ class ScopeType(str, enum.Enum):
     phase = "phase"            # El ciclo se reinicia por fase
 
 
+# ─── Mixin de timestamps ──────────────────────────────────────────────────────
+
+
+class TimestampMixin:
+    """
+    Agrega created_at y updated_at a cualquier modelo.
+
+    created_at: se establece automáticamente al insertar (server_default=now()).
+    updated_at: se establece al insertar y se actualiza al modificar via ORM
+                (onupdate=func.now()). Para actualizaciones por SQL directo,
+                se requeriría un trigger en PostgreSQL.
+    """
+
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        nullable=False,
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        onupdate=func.now(),
+        nullable=False,
+    )
+
+
 # ─── Entidades independientes ─────────────────────────────────────────────────
 
 
-class League(Base):
+class League(TimestampMixin, Base):
     """
     Una liga o competición. Es la entidad raíz del sistema.
     Ejemplo: Primera División de Venezuela.
@@ -109,7 +135,7 @@ class League(Base):
         return f"<League id={self.id} name={self.name!r}>"
 
 
-class Team(Base):
+class Team(TimestampMixin, Base):
     """
     Un equipo de fútbol como entidad permanente, independiente de la temporada.
     Su participación por temporada se registra en SeasonTeam.
@@ -131,7 +157,7 @@ class Team(Base):
         return f"<Team id={self.id} name={self.name!r}>"
 
 
-class Player(Base):
+class Player(TimestampMixin, Base):
     """
     Un jugador como entidad permanente.
     Su vínculo con equipos y temporadas se gestiona en PlayerRegistration.
@@ -149,7 +175,7 @@ class Player(Base):
         return f"<Player id={self.id} name={self.name!r}>"
 
 
-class Referee(Base):
+class Referee(TimestampMixin, Base):
     """Árbitro que puede oficiar partidos."""
 
     __tablename__ = "referees"
@@ -166,7 +192,7 @@ class Referee(Base):
 # ─── Nivel Temporada ──────────────────────────────────────────────────────────
 
 
-class Season(Base):
+class Season(TimestampMixin, Base):
     """
     Una temporada dentro de una liga.
     Puede abarcar un solo año (2025) o cruzar dos años (2024-25).
@@ -185,7 +211,7 @@ class Season(Base):
         return f"<Season id={self.id} display_name={self.display_name!r}>"
 
 
-class SeasonTeam(Base):
+class SeasonTeam(TimestampMixin, Base):
     """
     Equipos participantes en una temporada.
     Necesario porque los equipos pueden ascender, descender o retirarse.
@@ -203,7 +229,7 @@ class SeasonTeam(Base):
         return f"<SeasonTeam season_id={self.season_id} team_id={self.team_id}>"
 
 
-class PlayerRegistration(Base):
+class PlayerRegistration(TimestampMixin, Base):
     """
     Historial de vínculos jugador–equipo por temporada.
     Permite rastrear transferencias y cesiones.
@@ -232,7 +258,7 @@ class PlayerRegistration(Base):
 # ─── Estructura del Torneo ────────────────────────────────────────────────────
 
 
-class Tournament(Base):
+class Tournament(TimestampMixin, Base):
     """
     Un torneo dentro de una temporada.
     En Venezuela: Apertura (1), Clausura (2), Final Absoluta (3).
@@ -252,7 +278,7 @@ class Tournament(Base):
         return f"<Tournament id={self.id} name={self.name!r}>"
 
 
-class TournamentPhase(Base):
+class TournamentPhase(TimestampMixin, Base):
     """
     Fase dentro de un torneo. Esta tabla es el núcleo de la flexibilidad
     del formato: define el tipo de fase, cuántas piernas tiene cada
@@ -283,7 +309,7 @@ class TournamentPhase(Base):
         return f"<TournamentPhase id={self.id} name={self.name!r} type={self.phase_type}>"
 
 
-class PhaseGroup(Base):
+class PhaseGroup(TimestampMixin, Base):
     """
     Grupo dentro de una fase de tipo group_stage.
     Ejemplo: Grupo A y Grupo B de los cuadrangulares.
@@ -300,7 +326,7 @@ class PhaseGroup(Base):
         return f"<PhaseGroup id={self.id} name={self.name!r}>"
 
 
-class GroupTeam(Base):
+class GroupTeam(TimestampMixin, Base):
     """Asignación de un equipo a un grupo dentro de una fase."""
 
     __tablename__ = "group_teams"
@@ -317,7 +343,7 @@ class GroupTeam(Base):
 # ─── Partidos ─────────────────────────────────────────────────────────────────
 
 
-class Round(Base):
+class Round(TimestampMixin, Base):
     """
     Jornada dentro de una fase (y opcionalmente de un grupo).
     Ejemplo: Jornada 1 de la Ronda Regular, Fecha 3 del Grupo A de Cuadrangulares.
@@ -339,7 +365,7 @@ class Round(Base):
         return f"<Round id={self.id} name={self.name!r}>"
 
 
-class Match(Base):
+class Match(TimestampMixin, Base):
     """
     Un partido de fútbol.
 
@@ -383,7 +409,7 @@ class Match(Base):
         )
 
 
-class MatchOfficial(Base):
+class MatchOfficial(TimestampMixin, Base):
     """Árbitros designados para un partido. Un partido tiene múltiples roles."""
 
     __tablename__ = "match_officials"
@@ -396,10 +422,13 @@ class MatchOfficial(Base):
     )
 
     def __repr__(self) -> str:
-        return f"<MatchOfficial match_id={self.match_id} referee_id={self.referee_id} role={self.role}>"
+        return (
+            f"<MatchOfficial match_id={self.match_id} "
+            f"referee_id={self.referee_id} role={self.role}>"
+        )
 
 
-class MatchEvent(Base):
+class MatchEvent(TimestampMixin, Base):
     """
     Evento ocurrido en un partido. Es la tabla más importante para estadísticas.
     Cada gol, tarjeta, asistencia o sustitución es un registro aquí con su minuto exacto.
@@ -437,7 +466,7 @@ class MatchEvent(Base):
 # ─── Derivadas ────────────────────────────────────────────────────────────────
 
 
-class Standing(Base):
+class Standing(TimestampMixin, Base):
     """
     Tabla de posiciones por fase y grupo. Vista desnormalizada que se actualiza
     al finalizar cada partido para evitar recalcular en cada consulta.
@@ -474,7 +503,7 @@ class Standing(Base):
         )
 
 
-class SuspensionCycle(Base):
+class SuspensionCycle(TimestampMixin, Base):
     """
     Ciclo de apercibido: seguimiento de amarillas que generan suspensiones.
     INDEPENDIENTE del conteo total de amarillas del año.

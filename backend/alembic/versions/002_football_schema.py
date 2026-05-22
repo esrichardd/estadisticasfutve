@@ -16,6 +16,8 @@ Tipos ENUM de PostgreSQL creados:
                          penalty_miss | penalty_saved
   - scope_type_enum    : tournament | phase
 
+Todas las tablas incluyen created_at y updated_at (timezone-aware).
+
 Revision ID: 002
 Revises: 001
 Create Date: 2026-05-21
@@ -30,6 +32,22 @@ revision: str = "002"
 down_revision: Union[str, None] = "001"
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
+
+# Columnas de auditoría reutilizables
+_TS = [
+    sa.Column(
+        "created_at",
+        sa.DateTime(timezone=True),
+        nullable=False,
+        server_default=sa.text("now()"),
+    ),
+    sa.Column(
+        "updated_at",
+        sa.DateTime(timezone=True),
+        nullable=False,
+        server_default=sa.text("now()"),
+    ),
+]
 
 
 def upgrade() -> None:
@@ -47,6 +65,7 @@ def upgrade() -> None:
         sa.Column(
             "is_active", sa.Boolean(), nullable=False, server_default=sa.text("true")
         ),
+        *_TS,
     )
 
     op.create_table(
@@ -62,6 +81,7 @@ def upgrade() -> None:
         sa.Column(
             "is_active", sa.Boolean(), nullable=False, server_default=sa.text("true")
         ),
+        *_TS,
     )
 
     op.create_table(
@@ -71,6 +91,7 @@ def upgrade() -> None:
         sa.Column("birth_date", sa.Date(), nullable=True),
         sa.Column("nationality", sa.String(100), nullable=True),
         sa.Column("position", sa.String(50), nullable=True),
+        *_TS,
     )
 
     op.create_table(
@@ -81,6 +102,7 @@ def upgrade() -> None:
         sa.Column(
             "is_active", sa.Boolean(), nullable=False, server_default=sa.text("true")
         ),
+        *_TS,
     )
 
     # ── 2. Nivel Temporada ────────────────────────────────────────────────────
@@ -97,6 +119,7 @@ def upgrade() -> None:
         sa.Column("display_name", sa.String(20), nullable=False),
         sa.Column("start_date", sa.Date(), nullable=False),
         sa.Column("end_date", sa.Date(), nullable=False),
+        *_TS,
     )
 
     op.create_table(
@@ -115,6 +138,7 @@ def upgrade() -> None:
             nullable=False,
         ),
         sa.UniqueConstraint("season_id", "team_id", name="uq_season_team"),
+        *_TS,
     )
 
     op.create_table(
@@ -145,6 +169,7 @@ def upgrade() -> None:
             "is_loan", sa.Boolean(), nullable=False, server_default=sa.text("false")
         ),
         sa.Column("notes", sa.Text(), nullable=True),
+        *_TS,
     )
 
     # ── 3. Estructura del Torneo ──────────────────────────────────────────────
@@ -163,6 +188,7 @@ def upgrade() -> None:
         sa.Column("order", sa.Integer(), nullable=False),
         sa.Column("start_date", sa.Date(), nullable=True),
         sa.Column("end_date", sa.Date(), nullable=True),
+        *_TS,
     )
 
     op.create_table(
@@ -197,6 +223,7 @@ def upgrade() -> None:
             nullable=False,
             server_default=sa.text("false"),
         ),
+        *_TS,
     )
 
     op.create_table(
@@ -209,6 +236,7 @@ def upgrade() -> None:
             nullable=False,
         ),
         sa.Column("name", sa.String(100), nullable=False),
+        *_TS,
     )
 
     op.create_table(
@@ -227,6 +255,7 @@ def upgrade() -> None:
             nullable=False,
         ),
         sa.Column("seed", sa.Integer(), nullable=True),
+        *_TS,
     )
 
     # ── 4. Partidos ───────────────────────────────────────────────────────────
@@ -250,6 +279,7 @@ def upgrade() -> None:
         sa.Column("name", sa.String(100), nullable=False),
         sa.Column("date_start", sa.Date(), nullable=True),
         sa.Column("date_end", sa.Date(), nullable=True),
+        *_TS,
     )
 
     op.create_table(
@@ -301,6 +331,7 @@ def upgrade() -> None:
         ),
         sa.Column("home_score", sa.Integer(), nullable=True),
         sa.Column("away_score", sa.Integer(), nullable=True),
+        *_TS,
     )
 
     op.create_table(
@@ -330,6 +361,7 @@ def upgrade() -> None:
             ),
             nullable=False,
         ),
+        *_TS,
     )
 
     op.create_table(
@@ -380,6 +412,7 @@ def upgrade() -> None:
             sa.ForeignKey("players.id", ondelete="SET NULL"),
             nullable=True,
         ),
+        *_TS,
     )
 
     # ── 5. Derivadas ──────────────────────────────────────────────────────────
@@ -431,6 +464,7 @@ def upgrade() -> None:
             server_default=sa.text("now()"),
         ),
         sa.UniqueConstraint("phase_id", "group_id", "team_id", name="uq_standing"),
+        *_TS,
     )
 
     op.create_table(
@@ -473,6 +507,7 @@ def upgrade() -> None:
         sa.Column(
             "cycle_number", sa.Integer(), nullable=False, server_default=sa.text("1")
         ),
+        *_TS,
     )
 
 
