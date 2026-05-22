@@ -40,6 +40,15 @@ Liga → Temporada → Torneo → Fase → (Grupo) → Jornada → Partido → E
 
 Cada nivel es independiente y configurable, lo que permite representar desde una simple liga de grupos hasta formatos complejos con múltiples rondas, cuadrangulares, y finales absolutas de ida y vuelta — sin cambios de esquema entre temporadas.
 
+### Convenciones aplicadas a todas las tablas
+
+| Convención | Detalle |
+| --- | --- |
+| **Clave primaria** | `uuid` — generado por PostgreSQL con `gen_random_uuid()` (nativo desde PG 13). No es autoincremental. |
+| **Claves foráneas** | `uuid` — mismo tipo que la PK referenciada. |
+| **Auditoría** | Todas las tablas incluyen `created_at` y `updated_at` (`timestamp with time zone`, `NOT NULL`, valor por defecto `now()`). No se repiten en cada sección para no redundar. |
+| **Tipos ENUM** | PostgreSQL ENUMs: `phase_type_enum`, `match_status_enum`, `referee_role_enum`, `event_type_enum`, `scope_type_enum`. |
+
 ---
 
 ## Diagrama de relaciones
@@ -47,7 +56,7 @@ Cada nivel es independiente y configurable, lo que permite representar desde una
 ```mermaid
 erDiagram
     leagues {
-        int id PK
+        uuid id PK
         string name
         string country
         string federation
@@ -57,15 +66,15 @@ erDiagram
     }
 
     seasons {
-        int id PK
-        int league_id FK
+        uuid id PK
+        uuid league_id FK
         string display_name
         date start_date
         date end_date
     }
 
     teams {
-        int id PK
+        uuid id PK
         string name
         string short_name
         string abbreviation
@@ -77,13 +86,13 @@ erDiagram
     }
 
     season_teams {
-        int id PK
-        int season_id FK
-        int team_id FK
+        uuid id PK
+        uuid season_id FK
+        uuid team_id FK
     }
 
     players {
-        int id PK
+        uuid id PK
         string name
         date birth_date
         string nationality
@@ -91,10 +100,10 @@ erDiagram
     }
 
     player_registrations {
-        int id PK
-        int player_id FK
-        int team_id FK
-        int season_id FK
+        uuid id PK
+        uuid player_id FK
+        uuid team_id FK
+        uuid season_id FK
         int jersey_number
         date start_date
         date end_date
@@ -103,15 +112,15 @@ erDiagram
     }
 
     referees {
-        int id PK
+        uuid id PK
         string name
         string nationality
         bool is_active
     }
 
     tournaments {
-        int id PK
-        int season_id FK
+        uuid id PK
+        uuid season_id FK
         string name
         int order
         date start_date
@@ -119,8 +128,8 @@ erDiagram
     }
 
     tournament_phases {
-        int id PK
-        int tournament_id FK
+        uuid id PK
+        uuid tournament_id FK
         string name
         string phase_type
         int order
@@ -130,22 +139,22 @@ erDiagram
     }
 
     phase_groups {
-        int id PK
-        int phase_id FK
+        uuid id PK
+        uuid phase_id FK
         string name
     }
 
     group_teams {
-        int id PK
-        int group_id FK
-        int team_id FK
+        uuid id PK
+        uuid group_id FK
+        uuid team_id FK
         int seed
     }
 
     rounds {
-        int id PK
-        int phase_id FK
-        int group_id FK
+        uuid id PK
+        uuid phase_id FK
+        uuid group_id FK
         int number
         string name
         date date_start
@@ -153,13 +162,13 @@ erDiagram
     }
 
     matches {
-        int id PK
-        int round_id FK
-        int home_team_id FK
-        int away_team_id FK
+        uuid id PK
+        uuid round_id FK
+        uuid home_team_id FK
+        uuid away_team_id FK
         int tie_id
         int leg
-        int reverse_of_match_id FK
+        uuid reverse_of_match_id FK
         timestamp scheduled_datetime
         string venue
         string status
@@ -168,28 +177,28 @@ erDiagram
     }
 
     match_officials {
-        int id PK
-        int match_id FK
-        int referee_id FK
+        uuid id PK
+        uuid match_id FK
+        uuid referee_id FK
         string role
     }
 
     match_events {
-        int id PK
-        int match_id FK
-        int player_id FK
-        int team_id FK
+        uuid id PK
+        uuid match_id FK
+        uuid player_id FK
+        uuid team_id FK
         string event_type
         int minute
         int added_time
-        int related_player_id FK
+        uuid related_player_id FK
     }
 
     standings {
-        int id PK
-        int phase_id FK
-        int group_id FK
-        int team_id FK
+        uuid id PK
+        uuid phase_id FK
+        uuid group_id FK
+        uuid team_id FK
         int played
         int won
         int drawn
@@ -202,9 +211,9 @@ erDiagram
     }
 
     suspension_cycles {
-        int id PK
-        int player_id FK
-        int scope_id
+        uuid id PK
+        uuid player_id FK
+        uuid scope_id
         string scope_type
         int yellow_count_in_cycle
         int threshold
@@ -252,7 +261,7 @@ Representa una competición o liga. Es la entidad raíz del sistema.
 
 | Campo        | Tipo      | Descripción                                           |
 | ------------ | --------- | ----------------------------------------------------- |
-| `id`         | `integer` | Clave primaria                                        |
+| `id`         | `uuid`    | Clave primaria                                        |
 | `name`       | `varchar` | Nombre completo (ej. "Primera División de Venezuela") |
 | `country`    | `varchar` | País de la liga (ej. "Venezuela")                     |
 | `federation` | `varchar` | Organismo rector (ej. "FUTVE", "CONMEBOL")            |
@@ -268,8 +277,8 @@ Una temporada dentro de una liga. Puede abarcar un solo año calendario o cruzar
 
 | Campo          | Tipo      | Descripción                                            |
 | -------------- | --------- | ------------------------------------------------------ |
-| `id`           | `integer` | Clave primaria                                         |
-| `league_id`    | `integer` | FK → `leagues.id`                                      |
+| `id`           | `uuid`    | Clave primaria                                         |
+| `league_id`    | `uuid`    | FK → `leagues.id`                                      |
 | `display_name` | `varchar` | Nombre para mostrar en UI (ej. `"2025"` o `"2024-25"`) |
 | `start_date`   | `date`    | Fecha de inicio real de la temporada                   |
 | `end_date`     | `date`    | Fecha de fin real de la temporada                      |
@@ -284,7 +293,7 @@ Un equipo de fútbol como entidad permanente, independiente de la temporada en q
 
 | Campo          | Tipo         | Descripción                                      |
 | -------------- | ------------ | ------------------------------------------------ |
-| `id`           | `integer`    | Clave primaria                                   |
+| `id`           | `uuid`       | Clave primaria                                   |
 | `name`         | `varchar`    | Nombre completo (ej. "Caracas Fútbol Club")      |
 | `short_name`   | `varchar`    | Nombre corto (ej. "Caracas FC")                  |
 | `abbreviation` | `varchar(3)` | Sigla de 3 letras (ej. "CAR")                    |
@@ -302,9 +311,9 @@ Registra qué equipos participan en cada temporada. Necesario porque los equipos
 
 | Campo       | Tipo      | Descripción       |
 | ----------- | --------- | ----------------- |
-| `id`        | `integer` | Clave primaria    |
-| `season_id` | `integer` | FK → `seasons.id` |
-| `team_id`   | `integer` | FK → `teams.id`   |
+| `id`        | `uuid`    | Clave primaria    |
+| `season_id` | `uuid`    | FK → `seasons.id` |
+| `team_id`   | `uuid`    | FK → `teams.id`   |
 
 > **Restricción:** La combinación `(season_id, team_id)` debe ser única.
 
@@ -316,7 +325,7 @@ Un jugador como entidad permanente. Su vínculo con equipos y temporadas se gest
 
 | Campo         | Tipo      | Descripción                                                        |
 | ------------- | --------- | ------------------------------------------------------------------ |
-| `id`          | `integer` | Clave primaria                                                     |
+| `id`          | `uuid`    | Clave primaria                                                     |
 | `name`        | `varchar` | Nombre completo                                                    |
 | `birth_date`  | `date`    | Fecha de nacimiento                                                |
 | `nationality` | `varchar` | Nacionalidad                                                       |
@@ -330,10 +339,10 @@ Historial de vínculos entre jugadores y equipos por temporada. Permite rastrear
 
 | Campo           | Tipo      | Descripción                                              |
 | --------------- | --------- | -------------------------------------------------------- |
-| `id`            | `integer` | Clave primaria                                           |
-| `player_id`     | `integer` | FK → `players.id`                                        |
-| `team_id`       | `integer` | FK → `teams.id`                                          |
-| `season_id`     | `integer` | FK → `seasons.id`                                        |
+| `id`            | `uuid`    | Clave primaria                                           |
+| `player_id`     | `uuid`    | FK → `players.id`                                        |
+| `team_id`       | `uuid`    | FK → `teams.id`                                          |
+| `season_id`     | `uuid`    | FK → `seasons.id`                                        |
 | `jersey_number` | `integer` | Número de camiseta en ese período                        |
 | `start_date`    | `date`    | Fecha desde la que está activo en el equipo              |
 | `end_date`      | `date`    | Fecha hasta la que estuvo activo (`NULL` = aún activo)   |
@@ -350,7 +359,7 @@ Historial de vínculos entre jugadores y equipos por temporada. Permite rastrear
 
 | Campo         | Tipo      | Descripción           |
 | ------------- | --------- | --------------------- |
-| `id`          | `integer` | Clave primaria        |
+| `id`          | `uuid`    | Clave primaria        |
 | `name`        | `varchar` | Nombre completo       |
 | `nationality` | `varchar` | Nacionalidad          |
 | `is_active`   | `boolean` | Si sigue en actividad |
@@ -363,8 +372,8 @@ Un torneo dentro de una temporada. En la Primera División venezolana, una tempo
 
 | Campo        | Tipo      | Descripción                                                      |
 | ------------ | --------- | ---------------------------------------------------------------- |
-| `id`         | `integer` | Clave primaria                                                   |
-| `season_id`  | `integer` | FK → `seasons.id`                                                |
+| `id`         | `uuid`    | Clave primaria                                                   |
+| `season_id`  | `uuid`    | FK → `seasons.id`                                                |
 | `name`       | `varchar` | Nombre del torneo (ej. "Apertura", "Clausura", "Final Absoluta") |
 | `order`      | `integer` | Orden de disputa dentro de la temporada (1, 2, 3…)               |
 | `start_date` | `date`    | Fecha de inicio del torneo                                       |
@@ -378,8 +387,8 @@ Las fases dentro de un torneo. **Esta tabla es el núcleo de la flexibilidad del
 
 | Campo                  | Tipo      | Descripción                                                                  |
 | ---------------------- | --------- | ---------------------------------------------------------------------------- |
-| `id`                   | `integer` | Clave primaria                                                               |
-| `tournament_id`        | `integer` | FK → `tournaments.id`                                                        |
+| `id`                   | `uuid`    | Clave primaria                                                               |
+| `tournament_id`        | `uuid`    | FK → `tournaments.id`                                                        |
 | `name`                 | `varchar` | Nombre de la fase (ej. "Ronda Regular", "Cuadrangulares", "Final")           |
 | `phase_type`           | `varchar` | Tipo de fase (ver valores posibles abajo)                                    |
 | `order`                | `integer` | Orden dentro del torneo                                                      |
@@ -412,8 +421,8 @@ Grupos dentro de una fase de tipo `group_stage`. Por ejemplo, el Grupo A y Grupo
 
 | Campo      | Tipo      | Descripción                                 |
 | ---------- | --------- | ------------------------------------------- |
-| `id`       | `integer` | Clave primaria                              |
-| `phase_id` | `integer` | FK → `tournament_phases.id`                 |
+| `id`       | `uuid`    | Clave primaria                              |
+| `phase_id` | `uuid`    | FK → `tournament_phases.id`                 |
 | `name`     | `varchar` | Nombre del grupo (ej. "Grupo A", "Grupo B") |
 
 ---
@@ -424,9 +433,9 @@ Asignación de equipos a grupos dentro de una fase.
 
 | Campo      | Tipo      | Descripción                            |
 | ---------- | --------- | -------------------------------------- |
-| `id`       | `integer` | Clave primaria                         |
-| `group_id` | `integer` | FK → `phase_groups.id`                 |
-| `team_id`  | `integer` | FK → `teams.id`                        |
+| `id`       | `uuid`    | Clave primaria                         |
+| `group_id` | `uuid`    | FK → `phase_groups.id`                 |
+| `team_id`  | `uuid`    | FK → `teams.id`                        |
 | `seed`     | `integer` | Posición de cabeza de serie (opcional) |
 
 ---
@@ -437,9 +446,9 @@ Las jornadas dentro de una fase. En la Ronda Regular son las jornadas 1–13; en
 
 | Campo        | Tipo      | Descripción                                                    |
 | ------------ | --------- | -------------------------------------------------------------- |
-| `id`         | `integer` | Clave primaria                                                 |
-| `phase_id`   | `integer` | FK → `tournament_phases.id`                                    |
-| `group_id`   | `integer` | FK → `phase_groups.id` (`NULL` si la fase no tiene grupos)     |
+| `id`         | `uuid`    | Clave primaria                                                 |
+| `phase_id`   | `uuid`    | FK → `tournament_phases.id`                                    |
+| `group_id`   | `uuid`    | FK → `phase_groups.id` (`NULL` si la fase no tiene grupos)     |
 | `number`     | `integer` | Número de la jornada                                           |
 | `name`       | `varchar` | Nombre descriptivo (ej. "Jornada 1", "Fecha 3 Cuadrangulares") |
 | `date_start` | `date`    | Inicio del período de la jornada                               |
@@ -453,13 +462,13 @@ Un partido de fútbol. Pertenece a una jornada y contiene toda la información d
 
 | Campo                 | Tipo        | Descripción                                                                              |
 | --------------------- | ----------- | ---------------------------------------------------------------------------------------- |
-| `id`                  | `integer`   | Clave primaria                                                                           |
-| `round_id`            | `integer`   | FK → `rounds.id`                                                                         |
-| `home_team_id`        | `integer`   | FK → `teams.id` — equipo local                                                           |
-| `away_team_id`        | `integer`   | FK → `teams.id` — equipo visitante                                                       |
+| `id`                  | `uuid`      | Clave primaria                                                                           |
+| `round_id`            | `uuid`      | FK → `rounds.id`                                                                         |
+| `home_team_id`        | `uuid`      | FK → `teams.id` — equipo local                                                           |
+| `away_team_id`        | `uuid`      | FK → `teams.id` — equipo visitante                                                       |
 | `tie_id`              | `integer`   | Agrupa los dos partidos de una eliminatoria de ida y vuelta (`NULL` si no aplica)        |
 | `leg`                 | `integer`   | Número de la ida/vuelta dentro de una eliminatoria (`1` o `2`, `NULL` si no aplica)      |
-| `reverse_of_match_id` | `integer`   | FK → `matches.id` — apunta al partido del Apertura del que este es la vuelta en Clausura |
+| `reverse_of_match_id` | `uuid`      | FK → `matches.id` — apunta al partido del Apertura del que este es la vuelta en Clausura |
 | `scheduled_datetime`  | `timestamp` | Fecha y hora programada del partido                                                      |
 | `venue`               | `varchar`   | Estadio donde se juega (puede diferir del estadio habitual del local)                    |
 | `status`              | `varchar`   | Estado: `scheduled`, `live`, `finished`, `postponed`, `cancelled`                        |
@@ -478,9 +487,9 @@ Los árbitros designados para cada partido. Un partido tiene múltiples roles de
 
 | Campo        | Tipo      | Descripción                                                                     |
 | ------------ | --------- | ------------------------------------------------------------------------------- |
-| `id`         | `integer` | Clave primaria                                                                  |
-| `match_id`   | `integer` | FK → `matches.id`                                                               |
-| `referee_id` | `integer` | FK → `referees.id`                                                              |
+| `id`         | `uuid`    | Clave primaria                                                                  |
+| `match_id`   | `uuid`    | FK → `matches.id`                                                               |
+| `referee_id` | `uuid`    | FK → `referees.id`                                                              |
 | `role`       | `varchar` | Rol del árbitro: `main`, `assistant_1`, `assistant_2`, `fourth_official`, `var` |
 
 ---
@@ -491,14 +500,14 @@ Los árbitros designados para cada partido. Un partido tiene múltiples roles de
 
 | Campo               | Tipo      | Descripción                                                                                                     |
 | ------------------- | --------- | --------------------------------------------------------------------------------------------------------------- |
-| `id`                | `integer` | Clave primaria                                                                                                  |
-| `match_id`          | `integer` | FK → `matches.id`                                                                                               |
-| `player_id`         | `integer` | FK → `players.id` — protagonista del evento                                                                     |
-| `team_id`           | `integer` | FK → `teams.id` — equipo al que pertenecía el jugador en ese momento                                            |
+| `id`                | `uuid`    | Clave primaria                                                                                                  |
+| `match_id`          | `uuid`    | FK → `matches.id`                                                                                               |
+| `player_id`         | `uuid`    | FK → `players.id` — protagonista del evento                                                                     |
+| `team_id`           | `uuid`    | FK → `teams.id` — equipo al que pertenecía el jugador en ese momento                                            |
 | `event_type`        | `varchar` | Tipo de evento (ver valores posibles abajo)                                                                     |
 | `minute`            | `integer` | Minuto del partido en que ocurrió                                                                               |
 | `added_time`        | `integer` | Minutos de adición (ej. `90+3` → `minute=90`, `added_time=3`)                                                   |
-| `related_player_id` | `integer` | FK → `players.id` — jugador secundario del evento (ej. quién asistió en un gol, quién entró en una sustitución) |
+| `related_player_id` | `uuid`    | FK → `players.id` — jugador secundario del evento (ej. quién asistió en un gol, quién entró en una sustitución) |
 
 **Valores posibles de `event_type`:**
 
@@ -532,10 +541,10 @@ Tabla de posiciones por fase y grupo. Es una **vista desnormalizada** que se act
 
 | Campo             | Tipo        | Descripción                                                |
 | ----------------- | ----------- | ---------------------------------------------------------- |
-| `id`              | `integer`   | Clave primaria                                             |
-| `phase_id`        | `integer`   | FK → `tournament_phases.id`                                |
-| `group_id`        | `integer`   | FK → `phase_groups.id` (`NULL` si la fase no tiene grupos) |
-| `team_id`         | `integer`   | FK → `teams.id`                                            |
+| `id`              | `uuid`      | Clave primaria                                             |
+| `phase_id`        | `uuid`      | FK → `tournament_phases.id`                                |
+| `group_id`        | `uuid`      | FK → `phase_groups.id` (`NULL` si la fase no tiene grupos) |
+| `team_id`         | `uuid`      | FK → `teams.id`                                            |
 | `played`          | `integer`   | Partidos jugados                                           |
 | `won`             | `integer`   | Victorias                                                  |
 | `drawn`           | `integer`   | Empates                                                    |
@@ -554,10 +563,10 @@ Gestiona el sistema de apercibido: el ciclo de amarillas que genera suspensiones
 
 | Campo                   | Tipo      | Descripción                                                               |
 | ----------------------- | --------- | ------------------------------------------------------------------------- |
-| `id`                    | `integer` | Clave primaria                                                            |
-| `player_id`             | `integer` | FK → `players.id`                                                         |
+| `id`                    | `uuid`    | Clave primaria                                                            |
+| `player_id`             | `uuid`    | FK → `players.id`                                                         |
 | `scope_type`            | `varchar` | Ámbito del ciclo: `tournament` o `phase`                                  |
-| `scope_id`              | `integer` | ID del torneo o fase según `scope_type`                                   |
+| `scope_id`              | `uuid`    | ID del torneo o fase según `scope_type`                                   |
 | `yellow_count_in_cycle` | `integer` | Amarillas acumuladas en el ciclo actual                                   |
 | `threshold`             | `integer` | Número de amarillas que activa la suspensión (normalmente `4`)            |
 | `is_suspended`          | `boolean` | Si el jugador está actualmente suspendido                                 |
