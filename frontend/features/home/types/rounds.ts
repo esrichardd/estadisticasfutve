@@ -21,7 +21,23 @@ export type HomeRound = {
   matches: HomeMatch[];
 };
 
-export type HomeRoundsResponse = {
+export type HomeRoundsGroup = {
+  groupId: string;
+  groupName: string;
   latest: HomeRound | null;
   next: HomeRound | null;
 };
+
+export type HomeRoundsResponse =
+  | {
+      mode: "single";
+      latest: HomeRound | null;
+      next: HomeRound | null;
+      groups?: never;
+    }
+  | {
+      mode: "grouped";
+      groups: HomeRoundsGroup[];
+      latest?: never;
+      next?: never;
+    };

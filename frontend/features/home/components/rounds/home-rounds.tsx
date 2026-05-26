@@ -40,8 +40,7 @@ export async function HomeRounds(props: HomeRoundsProps) {
     <RoundsTabs
       formatLocale={props.formatLocale}
       labels={props.labels}
-      latest={rounds.latest}
-      next={rounds.next}
+      rounds={rounds}
     />
   );
 }
