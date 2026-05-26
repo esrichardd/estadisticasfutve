@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Security
 
 from app.api.v1 import leagues, matches, players, referees, seasons, standings, suspensions, teams, tournaments
+from app.api.v1.views import home as home_view
 from app.dependencies.auth import verify_api_key
 
 # Router principal de v1 — todos los endpoints bajo /api/v1 requieren x-api-key.
@@ -17,4 +18,5 @@ router.include_router(standings.router)
 router.include_router(suspensions.router)
 router.include_router(teams.router)
 router.include_router(tournaments.router)
+router.include_router(home_view.router)
 
