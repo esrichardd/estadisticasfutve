@@ -17,11 +17,17 @@ estructura deportiva y dejar los datos granulares para fases posteriores.
    - Crea `rounds` y `matches` desde calendario oficial o fuente normalizada.
    - Debe ejecutarse despues del seed estructural.
    - Cada partido debe referenciar equipos ya inscritos en la temporada.
+   - El archivo actual es
+     `backend/data/seeds/futve_2026_apertura_fixture.json`.
+   - Los kickoffs se guardan en UTC en `scheduled_datetime`; las fuentes
+     consultadas listan la hora local de Venezuela (`UTC-4`).
 
 3. **Resultados**
    - Actualiza `matches.status`, `matches.home_score` y `matches.away_score`.
    - Al finalizar esta fase, `standings` debe recalcularse desde partidos
      finalizados, no cargarse manualmente como verdad primaria.
+   - El recálculo puede ejecutarse con
+     `backend/scripts/recalculate_standings.py`.
 
 4. **Eventos**
    - Carga `players`, `player_registrations`, `referees`, `match_officials` y
@@ -76,6 +82,59 @@ python3 scripts/seed_structure.py --file data/seeds/otro_seed.json
 
 El importador es idempotente: busca registros por claves naturales antes de
 insertar. Correrlo dos veces no deberia duplicar la estructura.
+
+## Como importar el fixture
+
+Primero debe existir la estructura de la temporada. Luego, desde `backend/`:
+
+```bash
+python3 scripts/import_fixture.py
+```
+
+O dentro del contenedor Docker del backend:
+
+```bash
+docker compose exec backend uv run python scripts/import_fixture.py
+```
+
+Tambien se puede pasar otro archivo:
+
+```bash
+python3 scripts/import_fixture.py --file data/seeds/otro_fixture.json
+```
+
+El fixture actual incluye:
+
+- 13 jornadas de Ronda Regular.
+- 6 fechas del Cuadrangular A.
+- 6 fechas del Cuadrangular B.
+- 115 partidos en total.
+- Resultados ya finalizados cuando la fuente los tenia disponibles.
+
+## Como recalcular standings
+
+Despues de importar fixture/resultados, recalcula la tabla de posiciones desde
+los partidos con `status = finished`:
+
+```bash
+python3 scripts/recalculate_standings.py
+```
+
+O dentro del contenedor Docker del backend:
+
+```bash
+docker compose exec backend uv run python scripts/recalculate_standings.py
+```
+
+Por defecto recalcula `Primera Division de Venezuela` / temporada `2026` /
+torneo `Apertura`. Las fases `knockout` se omiten por defecto porque una final
+no se representa naturalmente como tabla de posiciones.
+
+Para incluir fases eliminatorias:
+
+```bash
+python3 scripts/recalculate_standings.py --include-knockout
+```
 
 ## Claves naturales usadas
 

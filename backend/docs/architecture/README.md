@@ -109,6 +109,11 @@ backend/
 │   │
 │   └── jobs/
 │       ├── scheduler.py
+│       ├── importers/
+│       │   ├── fixture_importer.py
+│       │   └── structure_importer.py
+│       ├── recalculators/
+│       │   └── standings_recalculator.py
 │       └── scrapers/
 │           ├── base_scraper.py
 │           └── futve_scraper.py
@@ -279,7 +284,7 @@ Los tres servicios principales de este dominio:
 Calcula estadísticas derivadas de `match_events`. Goleadores, asistidores, tarjetas, minutos jugados. Recibe un `tournament_id` o `phase_id` y devuelve los datos ya procesados.
 
 **`standings_service.py`**
-Recalcula la tabla de posiciones al finalizar un partido. Lee los eventos del partido terminado, actualiza los campos de la tabla `standings` (puntos, goles, partidos jugados). Es el servicio que se llama desde el job de actualización automática.
+Expone lógica de negocio relacionada con tablas de posiciones para la API. El recálculo batch de `standings` vive en `jobs/recalculators/standings_recalculator.py`, que reconstruye la tabla desde partidos finalizados.
 
 **`suspension_service.py`**
 Gestiona el sistema de apercibidos. Cuando se registra una tarjeta amarilla, verifica `suspension_cycles`, incrementa el contador, y si llega al `threshold`, marca al jugador como suspendido. También maneja el reinicio del ciclo cuando `cards_reset_on_start` está activo en una fase.
@@ -340,7 +345,7 @@ Regla: una vista no tiene lógica propia, solo orquesta services
 
 ### `jobs/` — CRONs y scrapers
 
-Las tareas programadas que alimentan la DB automáticamente.
+Las tareas programadas y procesos offline que alimentan o reconstruyen datos de la DB automáticamente.
 
 **`scheduler.py`**
 Configura APScheduler, la librería que maneja los CRONs dentro del proceso de FastAPI. Define qué función corre y con qué frecuencia (por ejemplo, "cada noche a las 2am, actualizar resultados del día").
@@ -351,9 +356,15 @@ Clase base con utilidades comunes: manejo de errores de red, reintentos, logging
 **`scrapers/futve_scraper.py`**
 El scraper concreto para obtener datos de la liga venezolana. Va a buscar resultados a la fuente externa, transforma los datos al formato de la DB, y los persiste usando los mismos repositorios que usa el resto de la app. No tiene acceso directo a la DB; pasa siempre por los repositorios.
 
+**`importers/`**
+Importadores idempotentes para cargar datos curados desde archivos del proyecto, como estructura de temporada y fixture.
+
+**`recalculators/standings_recalculator.py`**
+Reconstruye `standings` desde `matches` con `status = finished`, agrupando por fase y grupo. Se ejecuta manualmente con `backend/scripts/recalculate_standings.py` y omite fases `knockout` por defecto.
+
 ```
-Responsabilidad: obtener datos externos y persistirlos en la DB
-Regla: los scrapers usan repositorios para escribir en la DB, no SQL directo
+Responsabilidad: obtener, importar o recalcular datos externos/derivados
+Regla: los jobs no exponen HTTP; se ejecutan por scheduler o scripts
 ```
 
 ---

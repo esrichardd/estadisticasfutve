@@ -537,7 +537,7 @@ Los árbitros designados para cada partido. Un partido tiene múltiples roles de
 
 ### `standings`
 
-Tabla de posiciones por fase y grupo. Es una **vista desnormalizada** que se actualiza al finalizar cada partido para evitar recalcular en cada consulta.
+Tabla de posiciones por fase y grupo. Es una **vista desnormalizada** que se actualiza desde partidos finalizados para evitar recalcular en cada consulta.
 
 | Campo             | Tipo        | Descripción                                                |
 | ----------------- | ----------- | ---------------------------------------------------------- |
@@ -554,6 +554,12 @@ Tabla de posiciones por fase y grupo. Es una **vista desnormalizada** que se act
 | `goal_difference` | `integer`   | Diferencia de goles                                        |
 | `points`          | `integer`   | Puntos acumulados                                          |
 | `last_updated`    | `timestamp` | Última actualización del registro                          |
+
+La fuente primaria para recalcular esta tabla son los partidos con
+`matches.status = finished` y marcadores completos en `home_score` y
+`away_score`. El comando `backend/scripts/recalculate_standings.py`
+reconstruye las posiciones por fase y grupo; las fases de tipo `knockout` se
+omiten por defecto porque una final no se representa naturalmente como tabla.
 
 ---
 

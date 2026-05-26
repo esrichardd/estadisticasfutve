@@ -1,0 +1,387 @@
+{
+  "metadata": {
+    "name": "FUTVE 2026 Apertura fixture",
+    "description": "Fixture del Torneo Apertura 2026 con kickoffs en UTC.",
+    "timezone_note": "Las fuentes listan horas en Venezuela (UTC-4); scheduled_datetime fue convertido a UTC.",
+    "sources": [
+      "https://es.wikipedia.org/wiki/Torneo_Apertura_2026_%28Venezuela%29",
+      "https://www.lavinotinto.com/calendario-del-torneo-apertura-2026/",
+      "https://ligafutve.org/la-fase-final-del-torneo-apertura-ya-definio-sus-enfrentamientos/",
+      "https://www.sofascore.com/football/match/deportivo-tachira-carabobo-fc/EzcsGzc",
+      "https://www.sofascore.com/tr/football/match/estudiantes-de-merida-deportivo-tachira/GzcsVed",
+      "https://oddslot.com/es/futbol/partido/primera-divisi%C3%B3n/puerto-cabello/ucv/23-may-2026/",
+      "https://www.resultados-futbol.com/partido/academia-puerto-cabello/portuguesa-fc/2026318012"
+    ]
+  },
+  "league": "Primera Division de Venezuela",
+  "country": "Venezuela",
+  "season": "2026",
+  "tournament": "Apertura",
+  "rounds": [
+    {
+      "phase": "Ronda Regular",
+      "group": null,
+      "number": 1,
+      "name": "Jornada 1",
+      "date_start": "2026-01-29",
+      "date_end": "2026-02-01",
+      "matches": [
+        {"source_match_number": 1, "home_team": "Deportivo Tachira", "away_team": "Anzoategui FC", "scheduled_datetime": "2026-01-29T20:00:00+00:00", "venue": "Polideportivo de Pueblo Nuevo", "status": "finished", "home_score": 3, "away_score": 1},
+        {"source_match_number": 6, "home_team": "Academia Puerto Cabello", "away_team": "Metropolitanos FC", "scheduled_datetime": "2026-01-30T23:00:00+00:00", "venue": "La Bombonerita", "status": "finished", "home_score": 1, "away_score": 1},
+        {"source_match_number": 1, "home_team": "Rayo Zuliano", "away_team": "Zamora FC", "scheduled_datetime": "2026-01-31T19:30:00+00:00", "venue": "Jose Encarnacion Romero", "status": "finished", "home_score": 0, "away_score": 1},
+        {"source_match_number": 3, "home_team": "Carabobo FC", "away_team": "Portuguesa FC", "scheduled_datetime": "2026-01-31T21:00:00+00:00", "venue": "Misael Delgado", "status": "finished", "home_score": 0, "away_score": 0},
+        {"source_match_number": 5, "home_team": "Deportivo La Guaira", "away_team": "Monagas SC", "scheduled_datetime": "2026-01-31T23:00:00+00:00", "venue": "Olimpico de la UCV", "status": "finished", "home_score": 2, "away_score": 0},
+        {"source_match_number": 7, "home_team": "Estudiantes de Merida", "away_team": "Caracas FC", "scheduled_datetime": "2026-02-01T21:00:00+00:00", "venue": "Metropolitano de Merida", "status": "finished", "home_score": 2, "away_score": 2},
+        {"source_match_number": 4, "home_team": "UCV FC", "away_team": "Trujillanos FC", "scheduled_datetime": "2026-02-01T23:00:00+00:00", "venue": "Olimpico de la UCV", "status": "finished", "home_score": 2, "away_score": 0}
+      ]
+    },
+    {
+      "phase": "Ronda Regular",
+      "group": null,
+      "number": 2,
+      "name": "Jornada 2",
+      "date_start": "2026-02-06",
+      "date_end": "2026-02-08",
+      "matches": [
+        {"source_match_number": 14, "home_team": "Portuguesa FC", "away_team": "Deportivo Tachira", "scheduled_datetime": "2026-02-06T22:00:00+00:00", "venue": "Jose Antonio Paez", "status": "finished", "home_score": 1, "away_score": 0},
+        {"source_match_number": 11, "home_team": "Anzoategui FC", "away_team": "Rayo Zuliano", "scheduled_datetime": "2026-02-06T23:30:00+00:00", "venue": "Jose Antonio Anzoategui", "status": "finished", "home_score": 1, "away_score": 3},
+        {"source_match_number": 12, "home_team": "Zamora FC", "away_team": "Estudiantes de Merida", "scheduled_datetime": "2026-02-07T21:00:00+00:00", "venue": "Agustin Tovar", "status": "finished", "home_score": 3, "away_score": 2},
+        {"source_match_number": 8, "home_team": "Caracas FC", "away_team": "Academia Puerto Cabello", "scheduled_datetime": "2026-02-07T22:00:00+00:00", "venue": "Olimpico de la UCV", "status": "finished", "home_score": 1, "away_score": 1},
+        {"source_match_number": 9, "home_team": "Monagas SC", "away_team": "UCV FC", "scheduled_datetime": "2026-02-07T23:30:00+00:00", "venue": "Monumental de Maturin", "status": "finished", "home_score": 0, "away_score": 3},
+        {"source_match_number": 10, "home_team": "Trujillanos FC", "away_team": "Carabobo FC", "scheduled_datetime": "2026-02-08T19:30:00+00:00", "venue": "Jose Alberto Perez", "status": "finished", "home_score": 1, "away_score": 1},
+        {"source_match_number": 13, "home_team": "Metropolitanos FC", "away_team": "Deportivo La Guaira", "scheduled_datetime": "2026-02-08T21:00:00+00:00", "venue": "Olimpico de la UCV", "status": "finished", "home_score": 2, "away_score": 2}
+      ]
+    },
+    {
+      "phase": "Ronda Regular",
+      "group": null,
+      "number": 3,
+      "name": "Jornada 3",
+      "date_start": "2026-02-13",
+      "date_end": "2026-02-14",
+      "matches": [
+        {"source_match_number": 21, "home_team": "Estudiantes de Merida", "away_team": "Rayo Zuliano", "scheduled_datetime": "2026-02-13T21:00:00+00:00", "venue": "Metropolitano de Merida", "status": "finished", "home_score": 1, "away_score": 2},
+        {"source_match_number": 16, "home_team": "Carabobo FC", "away_team": "Monagas SC", "scheduled_datetime": "2026-02-13T22:00:00+00:00", "venue": "Misael Delgado", "status": "finished", "home_score": 1, "away_score": 0},
+        {"source_match_number": 17, "home_team": "UCV FC", "away_team": "Metropolitanos FC", "scheduled_datetime": "2026-02-13T23:30:00+00:00", "venue": "Olimpico de la UCV", "status": "finished", "home_score": 3, "away_score": 2},
+        {"source_match_number": 19, "home_team": "Deportivo La Guaira", "away_team": "Caracas FC", "scheduled_datetime": "2026-02-14T21:00:00+00:00", "venue": "Olimpico de la UCV", "status": "finished", "home_score": 2, "away_score": 0},
+        {"source_match_number": 15, "home_team": "Deportivo Tachira", "away_team": "Trujillanos FC", "scheduled_datetime": "2026-02-14T22:00:00+00:00", "venue": "Polideportivo de Pueblo Nuevo", "status": "finished", "home_score": 0, "away_score": 0},
+        {"source_match_number": 18, "home_team": "Portuguesa FC", "away_team": "Anzoategui FC", "scheduled_datetime": "2026-02-14T23:00:00+00:00", "venue": "Jose Antonio Paez", "status": "finished", "home_score": 0, "away_score": 3},
+        {"source_match_number": 20, "home_team": "Academia Puerto Cabello", "away_team": "Zamora FC", "scheduled_datetime": "2026-02-14T23:30:00+00:00", "venue": "La Bombonerita", "status": "finished", "home_score": 2, "away_score": 0}
+      ]
+    },
+    {
+      "phase": "Ronda Regular",
+      "group": null,
+      "number": 4,
+      "name": "Jornada 4",
+      "date_start": "2026-02-20",
+      "date_end": "2026-02-23",
+      "matches": [
+        {"source_match_number": 28, "home_team": "Metropolitanos FC", "away_team": "Carabobo FC", "scheduled_datetime": "2026-02-20T21:00:00+00:00", "venue": "Olimpico de la UCV", "status": "finished", "home_score": 1, "away_score": 1},
+        {"source_match_number": 24, "home_team": "Rayo Zuliano", "away_team": "Academia Puerto Cabello", "scheduled_datetime": "2026-02-21T19:30:00+00:00", "venue": "Jose Encarnacion Romero", "status": "finished", "home_score": 2, "away_score": 1},
+        {"source_match_number": 25, "home_team": "Trujillanos FC", "away_team": "Portuguesa FC", "scheduled_datetime": "2026-02-22T19:30:00+00:00", "venue": "Jose Alberto Perez", "status": "finished", "home_score": 2, "away_score": 2},
+        {"source_match_number": 22, "home_team": "Caracas FC", "away_team": "UCV FC", "scheduled_datetime": "2026-02-22T21:30:00+00:00", "venue": "Olimpico de la UCV", "status": "finished", "home_score": 1, "away_score": 2},
+        {"source_match_number": 23, "home_team": "Monagas SC", "away_team": "Deportivo Tachira", "scheduled_datetime": "2026-02-22T23:30:00+00:00", "venue": "Monumental de Maturin", "status": "finished", "home_score": 2, "away_score": 3},
+        {"source_match_number": 27, "home_team": "Zamora FC", "away_team": "Deportivo La Guaira", "scheduled_datetime": "2026-02-23T21:30:00+00:00", "venue": "Agustin Tovar", "status": "finished", "home_score": 1, "away_score": 1},
+        {"source_match_number": 26, "home_team": "Anzoategui FC", "away_team": "Estudiantes de Merida", "scheduled_datetime": "2026-02-23T22:30:00+00:00", "venue": "Jose Antonio Anzoategui", "status": "finished", "home_score": 0, "away_score": 3}
+      ]
+    },
+    {
+      "phase": "Ronda Regular",
+      "group": null,
+      "number": 5,
+      "name": "Jornada 5",
+      "date_start": "2026-02-27",
+      "date_end": "2026-03-01",
+      "matches": [
+        {"source_match_number": 33, "home_team": "Portuguesa FC", "away_team": "Monagas SC", "scheduled_datetime": "2026-02-27T21:30:00+00:00", "venue": "Jose Antonio Paez", "status": "finished", "home_score": 4, "away_score": 0},
+        {"source_match_number": 35, "home_team": "Academia Puerto Cabello", "away_team": "Estudiantes de Merida", "scheduled_datetime": "2026-02-27T23:30:00+00:00", "venue": "La Bombonerita", "status": "finished", "home_score": 1, "away_score": 2},
+        {"source_match_number": 32, "home_team": "UCV FC", "away_team": "Zamora FC", "scheduled_datetime": "2026-02-28T21:00:00+00:00", "venue": "Olimpico de la UCV", "status": "finished", "home_score": 2, "away_score": 1},
+        {"source_match_number": 31, "home_team": "Carabobo FC", "away_team": "Caracas FC", "scheduled_datetime": "2026-02-28T22:30:00+00:00", "venue": "Misael Delgado", "status": "finished", "home_score": 0, "away_score": 0},
+        {"source_match_number": 30, "home_team": "Deportivo Tachira", "away_team": "Metropolitanos FC", "scheduled_datetime": "2026-03-01T00:30:00+00:00", "venue": "Polideportivo de Pueblo Nuevo", "status": "finished", "home_score": 0, "away_score": 1},
+        {"source_match_number": 29, "home_team": "Trujillanos FC", "away_team": "Anzoategui FC", "scheduled_datetime": "2026-03-01T19:30:00+00:00", "venue": "Jose Alberto Perez", "status": "finished", "home_score": 1, "away_score": 1},
+        {"source_match_number": 34, "home_team": "Deportivo La Guaira", "away_team": "Rayo Zuliano", "scheduled_datetime": "2026-03-01T21:30:00+00:00", "venue": "Olimpico de la UCV", "status": "finished", "home_score": 1, "away_score": 0}
+      ]
+    },
+    {
+      "phase": "Ronda Regular",
+      "group": null,
+      "number": 6,
+      "name": "Jornada 6",
+      "date_start": "2026-03-06",
+      "date_end": "2026-03-08",
+      "matches": [
+        {"source_match_number": 42, "home_team": "Estudiantes de Merida", "away_team": "Deportivo La Guaira", "scheduled_datetime": "2026-03-06T22:00:00+00:00", "venue": "Metropolitano de Merida", "status": "finished", "home_score": 0, "away_score": 1},
+        {"source_match_number": 40, "home_team": "Zamora FC", "away_team": "Carabobo FC", "scheduled_datetime": "2026-03-07T21:00:00+00:00", "venue": "Agustin Tovar", "status": "finished", "home_score": 0, "away_score": 0},
+        {"source_match_number": 36, "home_team": "Caracas FC", "away_team": "Deportivo Tachira", "scheduled_datetime": "2026-03-07T22:00:00+00:00", "venue": "Olimpico de la UCV", "status": "finished", "home_score": 0, "away_score": 1},
+        {"source_match_number": 39, "home_team": "Anzoategui FC", "away_team": "Academia Puerto Cabello", "scheduled_datetime": "2026-03-08T00:30:00+00:00", "venue": "Jose Antonio Anzoategui", "status": "finished", "home_score": 0, "away_score": 1},
+        {"source_match_number": 38, "home_team": "Rayo Zuliano", "away_team": "UCV FC", "scheduled_datetime": "2026-03-08T19:30:00+00:00", "venue": "Jose Encarnacion Romero", "status": "finished", "home_score": 1, "away_score": 5},
+        {"source_match_number": 41, "home_team": "Metropolitanos FC", "away_team": "Portuguesa FC", "scheduled_datetime": "2026-03-08T21:30:00+00:00", "venue": "Olimpico de la UCV", "status": "finished", "home_score": 3, "away_score": 2},
+        {"source_match_number": 37, "home_team": "Monagas SC", "away_team": "Trujillanos FC", "scheduled_datetime": "2026-03-08T23:30:00+00:00", "venue": "Monumental de Maturin", "status": "finished", "home_score": 3, "away_score": 1}
+      ]
+    },
+    {
+      "phase": "Ronda Regular",
+      "group": null,
+      "number": 7,
+      "name": "Jornada 7",
+      "date_start": "2026-03-13",
+      "date_end": "2026-03-15",
+      "matches": [
+        {"source_match_number": 49, "home_team": "Deportivo La Guaira", "away_team": "Academia Puerto Cabello", "scheduled_datetime": "2026-03-13T23:00:00+00:00", "venue": "Olimpico de la UCV", "status": "finished", "home_score": 0, "away_score": 0},
+        {"source_match_number": 44, "home_team": "Trujillanos FC", "away_team": "Metropolitanos FC", "scheduled_datetime": "2026-03-14T20:30:00+00:00", "venue": "Jose Alberto Perez", "status": "finished", "home_score": 0, "away_score": 1},
+        {"source_match_number": 47, "home_team": "UCV FC", "away_team": "Estudiantes de Merida", "scheduled_datetime": "2026-03-14T21:30:00+00:00", "venue": "Olimpico de la UCV", "status": "finished", "home_score": 1, "away_score": 1},
+        {"source_match_number": 48, "home_team": "Portuguesa FC", "away_team": "Caracas FC", "scheduled_datetime": "2026-03-14T22:30:00+00:00", "venue": "Jose Antonio Paez", "status": "finished", "home_score": 1, "away_score": 1},
+        {"source_match_number": 43, "home_team": "Monagas SC", "away_team": "Anzoategui FC", "scheduled_datetime": "2026-03-14T23:30:00+00:00", "venue": "Monumental de Maturin", "status": "finished", "home_score": 1, "away_score": 0},
+        {"source_match_number": 46, "home_team": "Carabobo FC", "away_team": "Rayo Zuliano", "scheduled_datetime": "2026-03-15T21:00:00+00:00", "venue": "Misael Delgado", "status": "finished", "home_score": 5, "away_score": 0},
+        {"source_match_number": 45, "home_team": "Deportivo Tachira", "away_team": "Zamora FC", "scheduled_datetime": "2026-03-15T23:00:00+00:00", "venue": "Polideportivo de Pueblo Nuevo", "status": "finished", "home_score": 2, "away_score": 1}
+      ]
+    },
+    {
+      "phase": "Ronda Regular",
+      "group": null,
+      "number": 8,
+      "name": "Jornada 8",
+      "date_start": "2026-03-17",
+      "date_end": "2026-03-18",
+      "matches": [
+        {"source_match_number": 52, "home_team": "Anzoategui FC", "away_team": "Deportivo La Guaira", "scheduled_datetime": "2026-03-17T21:30:00+00:00", "venue": "Jose Antonio Anzoategui", "status": "finished", "home_score": 0, "away_score": 0},
+        {"source_match_number": 55, "home_team": "Academia Puerto Cabello", "away_team": "UCV FC", "scheduled_datetime": "2026-03-17T22:30:00+00:00", "venue": "La Bombonerita", "status": "finished", "home_score": 3, "away_score": 0},
+        {"source_match_number": 50, "home_team": "Caracas FC", "away_team": "Trujillanos FC", "scheduled_datetime": "2026-03-17T23:30:00+00:00", "venue": "Olimpico de la UCV", "status": "finished", "home_score": 4, "away_score": 2},
+        {"source_match_number": 51, "home_team": "Rayo Zuliano", "away_team": "Deportivo Tachira", "scheduled_datetime": "2026-03-18T19:30:00+00:00", "venue": "Jose Encarnacion Romero", "status": "finished", "home_score": 0, "away_score": 0},
+        {"source_match_number": 56, "home_team": "Estudiantes de Merida", "away_team": "Carabobo FC", "scheduled_datetime": "2026-03-18T21:30:00+00:00", "venue": "Metropolitano de Merida", "status": "finished", "home_score": 3, "away_score": 2},
+        {"source_match_number": 53, "home_team": "Zamora FC", "away_team": "Portuguesa FC", "scheduled_datetime": "2026-03-18T22:30:00+00:00", "venue": "Agustin Tovar", "status": "finished", "home_score": 0, "away_score": 2},
+        {"source_match_number": 54, "home_team": "Metropolitanos FC", "away_team": "Monagas SC", "scheduled_datetime": "2026-03-18T23:30:00+00:00", "venue": "Olimpico de la UCV", "status": "finished", "home_score": 1, "away_score": 0}
+      ]
+    },
+    {
+      "phase": "Ronda Regular",
+      "group": null,
+      "number": 9,
+      "name": "Jornada 9",
+      "date_start": "2026-03-21",
+      "date_end": "2026-03-23",
+      "matches": [
+        {"source_match_number": 61, "home_team": "UCV FC", "away_team": "Deportivo La Guaira", "scheduled_datetime": "2026-03-21T22:00:00+00:00", "venue": "Olimpico de la UCV", "status": "finished", "home_score": 0, "away_score": 1},
+        {"source_match_number": 58, "home_team": "Trujillanos FC", "away_team": "Zamora FC", "scheduled_datetime": "2026-03-22T20:30:00+00:00", "venue": "Jose Alberto Perez", "status": "finished", "home_score": 0, "away_score": 3},
+        {"source_match_number": 59, "home_team": "Deportivo Tachira", "away_team": "Estudiantes de Merida", "scheduled_datetime": "2026-03-22T21:30:00+00:00", "venue": "Polideportivo de Pueblo Nuevo", "status": "finished", "home_score": 1, "away_score": 0},
+        {"source_match_number": 63, "home_team": "Portuguesa FC", "away_team": "Rayo Zuliano", "scheduled_datetime": "2026-03-22T22:30:00+00:00", "venue": "Jose Antonio Paez", "status": "finished", "home_score": 1, "away_score": 1},
+        {"source_match_number": 57, "home_team": "Monagas SC", "away_team": "Caracas FC", "scheduled_datetime": "2026-03-22T23:30:00+00:00", "venue": "Monumental de Maturin", "status": "finished", "home_score": 1, "away_score": 1},
+        {"source_match_number": 60, "home_team": "Carabobo FC", "away_team": "Academia Puerto Cabello", "scheduled_datetime": "2026-03-23T22:00:00+00:00", "venue": "Misael Delgado", "status": "finished", "home_score": 1, "away_score": 1},
+        {"source_match_number": 62, "home_team": "Metropolitanos FC", "away_team": "Anzoategui FC", "scheduled_datetime": "2026-03-23T23:30:00+00:00", "venue": "Olimpico de la UCV", "status": "finished", "home_score": 2, "away_score": 0}
+      ]
+    },
+    {
+      "phase": "Ronda Regular",
+      "group": null,
+      "number": 10,
+      "name": "Jornada 10",
+      "date_start": "2026-04-02",
+      "date_end": "2026-04-05",
+      "matches": [
+        {"source_match_number": 68, "home_team": "Deportivo La Guaira", "away_team": "Carabobo FC", "scheduled_datetime": "2026-04-02T23:00:00+00:00", "venue": "Olimpico de la UCV", "status": "finished", "home_score": 1, "away_score": 1},
+        {"source_match_number": 66, "home_team": "Anzoategui FC", "away_team": "UCV FC", "scheduled_datetime": "2026-04-03T21:30:00+00:00", "venue": "Jose Antonio Anzoategui", "status": "finished", "home_score": 2, "away_score": 3},
+        {"source_match_number": 64, "home_team": "Caracas FC", "away_team": "Metropolitanos FC", "scheduled_datetime": "2026-04-03T23:30:00+00:00", "venue": "Olimpico de la UCV", "status": "finished", "home_score": 1, "away_score": 0},
+        {"source_match_number": 65, "home_team": "Rayo Zuliano", "away_team": "Trujillanos FC", "scheduled_datetime": "2026-04-04T19:30:00+00:00", "venue": "Jose Encarnacion Romero", "status": "finished", "home_score": 3, "away_score": 1},
+        {"source_match_number": 67, "home_team": "Zamora FC", "away_team": "Monagas SC", "scheduled_datetime": "2026-04-04T21:30:00+00:00", "venue": "Agustin Tovar", "status": "finished", "home_score": 2, "away_score": 1},
+        {"source_match_number": 69, "home_team": "Academia Puerto Cabello", "away_team": "Deportivo Tachira", "scheduled_datetime": "2026-04-04T23:30:00+00:00", "venue": "La Bombonerita", "status": "finished", "home_score": 1, "away_score": 2},
+        {"source_match_number": 70, "home_team": "Estudiantes de Merida", "away_team": "Portuguesa FC", "scheduled_datetime": "2026-04-05T21:00:00+00:00", "venue": "Metropolitano de Merida", "status": "finished", "home_score": 2, "away_score": 1}
+      ]
+    },
+    {
+      "phase": "Ronda Regular",
+      "group": null,
+      "number": 11,
+      "name": "Jornada 11",
+      "date_start": "2026-04-10",
+      "date_end": "2026-04-12",
+      "matches": [
+        {"source_match_number": 74, "home_team": "Deportivo Tachira", "away_team": "Deportivo La Guaira", "scheduled_datetime": "2026-04-10T22:30:00+00:00", "venue": "Polideportivo de Pueblo Nuevo", "status": "finished", "home_score": 2, "away_score": 3},
+        {"source_match_number": 77, "home_team": "Portuguesa FC", "away_team": "Academia Puerto Cabello", "scheduled_datetime": "2026-04-11T21:00:00+00:00", "venue": "Jose Antonio Paez", "status": "finished", "home_score": 3, "away_score": 0},
+        {"source_match_number": 72, "home_team": "Monagas SC", "away_team": "Rayo Zuliano", "scheduled_datetime": "2026-04-11T22:00:00+00:00", "venue": "Monumental de Maturin", "status": "finished", "home_score": 3, "away_score": 0},
+        {"source_match_number": 76, "home_team": "Metropolitanos FC", "away_team": "Zamora FC", "scheduled_datetime": "2026-04-11T23:00:00+00:00", "venue": "Olimpico de la UCV", "status": "finished", "home_score": 0, "away_score": 0},
+        {"source_match_number": 75, "home_team": "Carabobo FC", "away_team": "UCV FC", "scheduled_datetime": "2026-04-12T21:00:00+00:00", "venue": "Misael Delgado", "status": "finished", "home_score": 4, "away_score": 2},
+        {"source_match_number": 73, "home_team": "Trujillanos FC", "away_team": "Estudiantes de Merida", "scheduled_datetime": "2026-04-12T21:30:00+00:00", "venue": "Jose Alberto Perez", "status": "finished", "home_score": 0, "away_score": 2},
+        {"source_match_number": 71, "home_team": "Caracas FC", "away_team": "Anzoategui FC", "scheduled_datetime": "2026-04-12T23:00:00+00:00", "venue": "Olimpico de la UCV", "status": "finished", "home_score": 1, "away_score": 3}
+      ]
+    },
+    {
+      "phase": "Ronda Regular",
+      "group": null,
+      "number": 12,
+      "name": "Jornada 12",
+      "date_start": "2026-04-18",
+      "date_end": "2026-04-21",
+      "matches": [
+        {"source_match_number": 78, "home_team": "Rayo Zuliano", "away_team": "Metropolitanos FC", "scheduled_datetime": "2026-04-18T19:30:00+00:00", "venue": "Jose Encarnacion Romero", "status": "finished", "home_score": 0, "away_score": 1},
+        {"source_match_number": 84, "home_team": "Estudiantes de Merida", "away_team": "Monagas SC", "scheduled_datetime": "2026-04-19T21:00:00+00:00", "venue": "Metropolitano de Merida", "status": "finished", "home_score": 3, "away_score": 2},
+        {"source_match_number": 81, "home_team": "UCV FC", "away_team": "Deportivo Tachira", "scheduled_datetime": "2026-04-19T23:00:00+00:00", "venue": "Olimpico de la UCV", "status": "finished", "home_score": 1, "away_score": 1},
+        {"source_match_number": 80, "home_team": "Zamora FC", "away_team": "Caracas FC", "scheduled_datetime": "2026-04-20T21:00:00+00:00", "venue": "Agustin Tovar", "status": "finished", "home_score": 1, "away_score": 1},
+        {"source_match_number": 79, "home_team": "Carabobo FC", "away_team": "Anzoategui FC", "scheduled_datetime": "2026-04-20T22:00:00+00:00", "venue": "Misael Delgado", "status": "finished", "home_score": 6, "away_score": 3},
+        {"source_match_number": 82, "home_team": "Deportivo La Guaira", "away_team": "Portuguesa FC", "scheduled_datetime": "2026-04-20T23:00:00+00:00", "venue": "Olimpico de la UCV", "status": "finished", "home_score": 0, "away_score": 0},
+        {"source_match_number": 83, "home_team": "Academia Puerto Cabello", "away_team": "Trujillanos FC", "scheduled_datetime": "2026-04-21T22:00:00+00:00", "venue": "La Bombonerita", "status": "finished", "home_score": 3, "away_score": 1}
+      ]
+    },
+    {
+      "phase": "Ronda Regular",
+      "group": null,
+      "number": 13,
+      "name": "Jornada 13",
+      "date_start": "2026-04-25",
+      "date_end": "2026-04-26",
+      "matches": [
+        {"source_match_number": 89, "home_team": "Anzoategui FC", "away_team": "Zamora FC", "scheduled_datetime": "2026-04-25T21:00:00+00:00", "venue": "Jose Antonio Anzoategui", "status": "finished", "home_score": 1, "away_score": 1},
+        {"source_match_number": 85, "home_team": "Caracas FC", "away_team": "Rayo Zuliano", "scheduled_datetime": "2026-04-25T21:00:00+00:00", "venue": "Olimpico de la UCV", "status": "finished", "home_score": 2, "away_score": 1},
+        {"source_match_number": 88, "home_team": "Deportivo Tachira", "away_team": "Carabobo FC", "scheduled_datetime": "2026-04-25T21:00:00+00:00", "venue": "Polideportivo de Pueblo Nuevo", "status": "finished", "home_score": 2, "away_score": 1},
+        {"source_match_number": 86, "home_team": "Monagas SC", "away_team": "Academia Puerto Cabello", "scheduled_datetime": "2026-04-25T21:00:00+00:00", "venue": "Monumental de Maturin", "status": "finished", "home_score": 1, "away_score": 1},
+        {"source_match_number": 91, "home_team": "Portuguesa FC", "away_team": "UCV FC", "scheduled_datetime": "2026-04-25T21:00:00+00:00", "venue": "Jose Antonio Paez", "status": "finished", "home_score": 3, "away_score": 0},
+        {"source_match_number": 87, "home_team": "Trujillanos FC", "away_team": "Deportivo La Guaira", "scheduled_datetime": "2026-04-25T21:30:00+00:00", "venue": "Jose Alberto Perez", "status": "finished", "home_score": 0, "away_score": 1},
+        {"source_match_number": 90, "home_team": "Metropolitanos FC", "away_team": "Estudiantes de Merida", "scheduled_datetime": "2026-04-26T22:00:00+00:00", "venue": "Olimpico de la UCV", "status": "finished", "home_score": 2, "away_score": 0}
+      ]
+    },
+    {
+      "phase": "Cuadrangulares",
+      "group": "Cuadrangular A",
+      "number": 1,
+      "name": "Fecha 1 Cuadrangular A",
+      "date_start": "2026-05-02",
+      "date_end": "2026-05-02",
+      "matches": [
+        {"home_team": "Portuguesa FC", "away_team": "UCV FC", "scheduled_datetime": "2026-05-02T22:00:00+00:00", "venue": "Jose Antonio Paez", "status": "finished", "home_score": 1, "away_score": 1},
+        {"home_team": "Academia Puerto Cabello", "away_team": "Deportivo La Guaira", "scheduled_datetime": "2026-05-03T00:00:00+00:00", "venue": "La Bombonerita", "status": "finished", "home_score": 1, "away_score": 1}
+      ]
+    },
+    {
+      "phase": "Cuadrangulares",
+      "group": "Cuadrangular A",
+      "number": 2,
+      "name": "Fecha 2 Cuadrangular A",
+      "date_start": "2026-05-09",
+      "date_end": "2026-05-09",
+      "matches": [
+        {"home_team": "Deportivo La Guaira", "away_team": "Portuguesa FC", "scheduled_datetime": "2026-05-09T20:00:00+00:00", "venue": "Olimpico de la UCV", "status": "finished", "home_score": 1, "away_score": 1},
+        {"home_team": "UCV FC", "away_team": "Academia Puerto Cabello", "scheduled_datetime": "2026-05-10T00:00:00+00:00", "venue": "Olimpico de la UCV", "status": "finished", "home_score": 3, "away_score": 1}
+      ]
+    },
+    {
+      "phase": "Cuadrangulares",
+      "group": "Cuadrangular A",
+      "number": 3,
+      "name": "Fecha 3 Cuadrangular A",
+      "date_start": "2026-05-12",
+      "date_end": "2026-05-13",
+      "matches": [
+        {"home_team": "UCV FC", "away_team": "Deportivo La Guaira", "scheduled_datetime": "2026-05-12T23:30:00+00:00", "venue": "Olimpico de la UCV", "status": "finished", "home_score": 1, "away_score": 1},
+        {"home_team": "Academia Puerto Cabello", "away_team": "Portuguesa FC", "scheduled_datetime": "2026-05-14T01:30:00+00:00", "venue": "La Bombonerita", "status": "finished", "home_score": 2, "away_score": 1}
+      ]
+    },
+    {
+      "phase": "Cuadrangulares",
+      "group": "Cuadrangular A",
+      "number": 4,
+      "name": "Fecha 4 Cuadrangular A",
+      "date_start": "2026-05-15",
+      "date_end": "2026-05-17",
+      "matches": [
+        {"home_team": "Deportivo La Guaira", "away_team": "UCV FC", "scheduled_datetime": "2026-05-15T23:30:00+00:00", "venue": "Olimpico de la UCV", "status": "finished", "home_score": 0, "away_score": 0},
+        {"home_team": "Portuguesa FC", "away_team": "Academia Puerto Cabello", "scheduled_datetime": "2026-05-17T21:00:00+00:00", "venue": "Jose Antonio Paez", "status": "finished", "home_score": 1, "away_score": 0}
+      ]
+    },
+    {
+      "phase": "Cuadrangulares",
+      "group": "Cuadrangular A",
+      "number": 5,
+      "name": "Fecha 5 Cuadrangular A",
+      "date_start": "2026-05-23",
+      "date_end": "2026-05-23",
+      "matches": [
+        {"home_team": "Portuguesa FC", "away_team": "Deportivo La Guaira", "scheduled_datetime": "2026-05-23T22:00:00+00:00", "venue": "Jose Antonio Paez", "status": "finished", "home_score": 0, "away_score": 2},
+        {"home_team": "Academia Puerto Cabello", "away_team": "UCV FC", "scheduled_datetime": "2026-05-23T22:00:00+00:00", "venue": "La Bombonerita", "status": "finished", "home_score": 2, "away_score": 1}
+      ]
+    },
+    {
+      "phase": "Cuadrangulares",
+      "group": "Cuadrangular A",
+      "number": 6,
+      "name": "Fecha 6 Cuadrangular A",
+      "date_start": "2026-05-30",
+      "date_end": "2026-05-30",
+      "matches": [
+        {"home_team": "UCV FC", "away_team": "Portuguesa FC", "scheduled_datetime": "2026-05-30T20:00:00+00:00", "venue": "Olimpico de la UCV", "status": "scheduled", "home_score": null, "away_score": null},
+        {"home_team": "Deportivo La Guaira", "away_team": "Academia Puerto Cabello", "scheduled_datetime": "2026-05-31T00:00:00+00:00", "venue": "Olimpico de la UCV", "status": "scheduled", "home_score": null, "away_score": null}
+      ]
+    },
+    {
+      "phase": "Cuadrangulares",
+      "group": "Cuadrangular B",
+      "number": 1,
+      "name": "Fecha 1 Cuadrangular B",
+      "date_start": "2026-05-02",
+      "date_end": "2026-05-03",
+      "matches": [
+        {"home_team": "Estudiantes de Merida", "away_team": "Deportivo Tachira", "scheduled_datetime": "2026-05-02T20:00:00+00:00", "venue": "Metropolitano de Merida", "status": "finished", "home_score": 2, "away_score": 1},
+        {"home_team": "Carabobo FC", "away_team": "Metropolitanos FC", "scheduled_datetime": "2026-05-03T22:00:00+00:00", "venue": "Misael Delgado", "status": "finished", "home_score": 0, "away_score": 0}
+      ]
+    },
+    {
+      "phase": "Cuadrangulares",
+      "group": "Cuadrangular B",
+      "number": 2,
+      "name": "Fecha 2 Cuadrangular B",
+      "date_start": "2026-05-09",
+      "date_end": "2026-05-10",
+      "matches": [
+        {"home_team": "Deportivo Tachira", "away_team": "Carabobo FC", "scheduled_datetime": "2026-05-10T00:30:00+00:00", "venue": "Polideportivo de Pueblo Nuevo", "status": "finished", "home_score": 3, "away_score": 1},
+        {"home_team": "Metropolitanos FC", "away_team": "Estudiantes de Merida", "scheduled_datetime": "2026-05-10T21:00:00+00:00", "venue": "Olimpico de la UCV", "status": "finished", "home_score": 2, "away_score": 0}
+      ]
+    },
+    {
+      "phase": "Cuadrangulares",
+      "group": "Cuadrangular B",
+      "number": 3,
+      "name": "Fecha 3 Cuadrangular B",
+      "date_start": "2026-05-12",
+      "date_end": "2026-05-13",
+      "matches": [
+        {"home_team": "Deportivo Tachira", "away_team": "Metropolitanos FC", "scheduled_datetime": "2026-05-12T22:00:00+00:00", "venue": "Polideportivo de Pueblo Nuevo", "status": "finished", "home_score": 1, "away_score": 1},
+        {"home_team": "Carabobo FC", "away_team": "Estudiantes de Merida", "scheduled_datetime": "2026-05-13T23:00:00+00:00", "venue": "Misael Delgado", "status": "finished", "home_score": 1, "away_score": 0}
+      ]
+    },
+    {
+      "phase": "Cuadrangulares",
+      "group": "Cuadrangular B",
+      "number": 4,
+      "name": "Fecha 4 Cuadrangular B",
+      "date_start": "2026-05-17",
+      "date_end": "2026-05-17",
+      "matches": [
+        {"home_team": "Estudiantes de Merida", "away_team": "Carabobo FC", "scheduled_datetime": "2026-05-17T20:00:00+00:00", "venue": "Metropolitano de Merida", "status": "finished", "home_score": 0, "away_score": 2},
+        {"home_team": "Metropolitanos FC", "away_team": "Deportivo Tachira", "scheduled_datetime": "2026-05-17T22:00:00+00:00", "venue": "Olimpico de la UCV", "status": "finished", "home_score": 0, "away_score": 1}
+      ]
+    },
+    {
+      "phase": "Cuadrangulares",
+      "group": "Cuadrangular B",
+      "number": 5,
+      "name": "Fecha 5 Cuadrangular B",
+      "date_start": "2026-05-24",
+      "date_end": "2026-05-24",
+      "matches": [
+        {"home_team": "Estudiantes de Merida", "away_team": "Metropolitanos FC", "scheduled_datetime": "2026-05-24T21:00:00+00:00", "venue": "Metropolitano de Merida", "status": "finished", "home_score": 0, "away_score": 1},
+        {"home_team": "Carabobo FC", "away_team": "Deportivo Tachira", "scheduled_datetime": "2026-05-24T21:00:00+00:00", "venue": "Misael Delgado", "status": "finished", "home_score": 1, "away_score": 1}
+      ]
+    },
+    {
+      "phase": "Cuadrangulares",
+      "group": "Cuadrangular B",
+      "number": 6,
+      "name": "Fecha 6 Cuadrangular B",
+      "date_start": "2026-05-31",
+      "date_end": "2026-05-31",
+      "matches": [
+        {"home_team": "Metropolitanos FC", "away_team": "Carabobo FC", "scheduled_datetime": "2026-05-31T21:00:00+00:00", "venue": "Olimpico de la UCV", "status": "scheduled", "home_score": null, "away_score": null},
+        {"home_team": "Deportivo Tachira", "away_team": "Estudiantes de Merida", "scheduled_datetime": "2026-05-31T21:00:00+00:00", "venue": "Polideportivo de Pueblo Nuevo", "status": "scheduled", "home_score": null, "away_score": null}
+      ]
+    }
+  ]
+}
