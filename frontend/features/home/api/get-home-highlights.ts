@@ -1,5 +1,8 @@
-import { mockHighlights } from "./mock-home-data";
+import { backendFetch } from "@/lib/api/client";
+import type { HomeHighlightsResponse } from "../types/highlights";
 
-export function getHomeHighlights() {
-  return Promise.resolve(mockHighlights);
+const BASE = "/views/home/highlights?season=2026&tournament=Apertura";
+
+export async function getHomeHighlights(): Promise<HomeHighlightsResponse> {
+  return backendFetch<HomeHighlightsResponse>(BASE);
 }

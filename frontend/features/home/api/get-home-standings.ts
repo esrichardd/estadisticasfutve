@@ -1,16 +1,11 @@
-import { mockPhases, mockStandingsByPhase } from "./mock-home-data";
+import { backendFetch } from "@/lib/api/client";
+import type { HomeStandingsResponse } from "../types/standings";
 
-export function getHomeStandings(phaseId?: string) {
-  const currentPhase = mockPhases.find((phase) => phase.isCurrent);
-  const fallbackPhaseId = currentPhase?.id ?? mockPhases[0]?.id;
-  const requestedPhaseId = phaseId?.trim();
-  const standings =
-    (requestedPhaseId ? mockStandingsByPhase[requestedPhaseId] : undefined) ??
-    (fallbackPhaseId ? mockStandingsByPhase[fallbackPhaseId] : undefined);
+const BASE = "/views/home/standings?season=2026&tournament=Apertura";
 
-  if (!standings) {
-    throw new Error("No standings mock is configured.");
-  }
-
-  return Promise.resolve(standings);
+export async function getHomeStandings(
+  phaseId?: string
+): Promise<HomeStandingsResponse> {
+  const path = phaseId ? `${BASE}&phase_id=${phaseId}` : BASE;
+  return backendFetch<HomeStandingsResponse>(path);
 }

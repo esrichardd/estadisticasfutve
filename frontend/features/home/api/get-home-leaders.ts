@@ -1,5 +1,8 @@
-import { mockLeaders } from "./mock-home-data";
+import { backendFetch } from "@/lib/api/client";
+import type { HomeLeadersResponse } from "../types/leaders";
 
-export function getHomeLeaders() {
-  return Promise.resolve(mockLeaders);
+const BASE = "/views/home/leaders?season=2026&tournament=Apertura";
+
+export async function getHomeLeaders(): Promise<HomeLeadersResponse> {
+  return backendFetch<HomeLeadersResponse>(BASE);
 }

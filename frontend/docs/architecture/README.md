@@ -70,12 +70,14 @@ frontend/
 │   └── ui/
 │
 ├── lib/
-│   └── i18n/
-│       ├── config.ts
-│       ├── format.ts
-│       ├── get-dictionary.ts
-│       └── dictionaries/
-│           └── [locale].json
+│   ├── i18n/
+│   │   ├── config.ts
+│   │   ├── format.ts
+│   │   ├── get-dictionary.ts
+│   │   └── dictionaries/
+│   │       └── [locale].json
+│   └── api/
+│       └── client.ts
 │
 ├── public/
 └── proxy.ts
@@ -202,6 +204,24 @@ lib/auth/
 ```
 
 Regla: `lib/` puede ser usado por `app/` y por `features/`, pero debe mantenerse libre de UI especifica de una pantalla.
+
+#### `lib/api/client.ts` — Cliente HTTP del backend
+
+Es el unico punto donde se leen las variables privadas del servidor (`BACKEND_API_URL`, `BACKEND_API_KEY`) y se construye el header `x-api-key`. Todos los fetchers de `features/*/api/` deben importar desde aqui.
+
+```ts
+import { backendFetch } from "@/lib/api/client";
+const data = await backendFetch<MiTipo>("/views/home/summary?season=2026&tournament=Apertura");
+```
+
+Caracteristicas:
+
+- `BACKEND_API_URL` y `BACKEND_API_KEY` son variables privadas del servidor. No llevan prefijo `NEXT_PUBLIC_` y nunca se exponen al browser.
+- En Docker, `BACKEND_API_URL` apunta al nombre del servicio interno (`http://backend:8000`). En local, apunta a `http://localhost:8000`.
+- `cache: "no-store"` por defecto. Usar `next: { revalidate: N }` si se quiere ISR en el futuro.
+- Lanza error descriptivo si el backend responde con status no-OK, incluyendo la URL y el cuerpo de la respuesta.
+
+Regla: ningun componente ni fetcher debe leer `BACKEND_API_KEY` directamente. Todo pasa por `backendFetch`.
 
 ---
 
@@ -330,10 +350,11 @@ features/[feature]/api/
 Reglas:
 
 - Los componentes visuales no deben hacer `fetch` directo.
-- Los mocks viven cerca del fetcher que reemplazaran.
-- Cambiar de mock a API real no debe requerir tocar la UI visual.
+- Cambiar de mock a API real no debe requerir tocar la UI visual ni los tipos.
 - Queries independientes deben resolverse en paralelo cuando aplique.
-- El frontend puede formatear datos, pero no debe duplicar reglas de negocio complejas.
+- El frontend puede formatear datos (ej. ISO UTC → string display-ready), pero no debe duplicar reglas de negocio complejas.
+- Todos los fetchers reales usan `backendFetch` de `lib/api/client.ts`. Nunca leen variables de entorno directamente.
+- Si la respuesta del backend no coincide con el tipo TypeScript, se adapta en el fetcher con un objeto intermedio. No se modifican el tipo ni el componente visual.
 
 ---
 

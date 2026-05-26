@@ -67,6 +67,8 @@ services:
       - "3000:3000"
     environment:
       NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+      BACKEND_API_URL: http://backend:8000    # nombre del servicio interno Docker
+      BACKEND_API_KEY: ${API_KEY}             # misma key que usa el backend
       WATCHPACK_POLLING: "true"       # hot reload confiable en macOS + Docker
     volumes:
       - ./frontend:/app               # hot reload: código fuente
