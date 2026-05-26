@@ -2,7 +2,11 @@ import type { HomeHighlightsResponse } from "../types/highlights";
 import type { HomeLeadersResponse } from "../types/leaders";
 import type { HomeRoundsResponse } from "../types/rounds";
 import type { TeamSummary } from "../types/shared";
-import type { HomeStandingsResponse } from "../types/standings";
+import type {
+  HomePhase,
+  HomeStandingRow,
+  HomeStandingsResponse,
+} from "../types/standings";
 import type { HomeSummaryResponse } from "../types/summary";
 
 const teams: TeamSummary[] = [
@@ -18,6 +22,8 @@ const teams: TeamSummary[] = [
   ["estudiantes", "Estudiantes de Mérida", "Estudiantes", "EST", "#117A65"],
   ["angostura", "Angostura FC", "Angostura", "ANG", "#1F618D"],
   ["ucv", "UCV FC", "UCV FC", "UCV", "#B7950B"],
+  ["academia", "Academia Puerto Cabello", "Puerto Cabello", "APC", "#D4AC0D"],
+  ["yaracuyanos", "Yaracuyanos FC", "Yaracuyanos", "YAR", "#196F3D"],
 ].map(([id, name, shortName, abbreviation, color]) => ({
   id,
   name,
@@ -28,6 +34,49 @@ const teams: TeamSummary[] = [
 }));
 
 const team = (id: string) => teams.find((item) => item.id === id) ?? teams[0];
+
+const standingRows = (
+  rows: [
+    number,
+    string,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    HomeStandingRow["form"],
+  ][],
+): HomeStandingRow[] =>
+  rows.map(
+    ([
+      position,
+      teamId,
+      played,
+      won,
+      drawn,
+      lost,
+      goalsFor,
+      goalsAgainst,
+      goalDifference,
+      points,
+      form,
+    ]) => ({
+      position,
+      team: team(teamId),
+      played,
+      won,
+      drawn,
+      lost,
+      goalsFor,
+      goalsAgainst,
+      goalDifference,
+      points,
+      form,
+    }),
+  );
 
 export const mockSummary: HomeSummaryResponse = {
   league: {
@@ -65,50 +114,114 @@ export const mockSummary: HomeSummaryResponse = {
   lastUpdated: "2026-05-22T18:42:00-05:00",
 };
 
-export const mockStandings: HomeStandingsResponse = {
-  phaseId: "ronda-regular",
-  groupId: null,
-  rows: [
-    [1, "tachira", 8, 5, 2, 1, 17, 8, 9, 17, ["W", "W", "D", "W", "W"]],
-    [2, "caracas", 8, 5, 1, 2, 14, 9, 5, 16, ["W", "D", "W", "W", "L"]],
-    [3, "laguaira", 8, 4, 2, 2, 12, 8, 4, 14, ["W", "L", "W", "D", "W"]],
-    [4, "metro", 8, 4, 1, 3, 11, 11, 0, 13, ["D", "W", "W", "L", "W"]],
-    [5, "monagas", 8, 3, 3, 2, 10, 9, 1, 12, ["W", "D", "L", "W", "D"]],
-    [6, "portuguesa", 8, 3, 2, 3, 9, 10, -1, 11, ["L", "W", "D", "W", "L"]],
-    [7, "zamora", 8, 3, 1, 4, 10, 13, -3, 10, ["W", "L", "L", "W", "D"]],
-    [8, "carabobo", 8, 2, 3, 3, 8, 10, -2, 9, ["D", "D", "L", "W", "D"]],
-    [9, "rayo", 8, 2, 2, 4, 7, 12, -5, 8, ["L", "W", "D", "L", "W"]],
-    [10, "estudiantes", 8, 2, 1, 5, 8, 14, -6, 7, ["L", "L", "W", "D", "L"]],
-    [11, "angostura", 8, 1, 2, 5, 5, 13, -8, 5, ["D", "L", "L", "W", "L"]],
-    [12, "ucv", 8, 1, 0, 7, 4, 18, -14, 3, ["L", "L", "L", "W", "L"]],
-  ].map(
-    ([
-      position,
-      teamId,
-      played,
-      won,
-      drawn,
-      lost,
-      goalsFor,
-      goalsAgainst,
-      goalDifference,
-      points,
-      form,
-    ]) => ({
-      position: Number(position),
-      team: team(String(teamId)),
-      played: Number(played),
-      won: Number(won),
-      drawn: Number(drawn),
-      lost: Number(lost),
-      goalsFor: Number(goalsFor),
-      goalsAgainst: Number(goalsAgainst),
-      goalDifference: Number(goalDifference),
-      points: Number(points),
-      form: form as HomeStandingsResponse["rows"][number]["form"],
-    }),
-  ),
+export const mockPhases: HomePhase[] = [
+  {
+    id: "regular",
+    name: "Ronda Regular",
+    type: "round_robin",
+    isCurrent: true,
+  },
+  {
+    id: "cuadrangulares",
+    name: "Cuadrangulares",
+    type: "group_stage",
+    isCurrent: false,
+  },
+  {
+    id: "final",
+    name: "Final",
+    type: "knockout",
+    isCurrent: false,
+  },
+];
+
+export const mockStandingsByPhase: Record<string, HomeStandingsResponse> = {
+  regular: {
+    phaseId: "regular",
+    groupId: null,
+    viewType: "single_table",
+    highlights: [
+      {
+        key: "qualifiesKnockout",
+        tone: "promotion",
+        from: 1,
+        to: 8,
+      },
+      {
+        key: "relegation",
+        tone: "danger",
+        from: 13,
+        to: 14,
+      },
+    ],
+    rows: standingRows([
+      [1, "tachira", 8, 5, 2, 1, 17, 8, 9, 17, ["W", "W", "D", "W", "W"]],
+      [2, "caracas", 8, 5, 1, 2, 14, 9, 5, 16, ["W", "D", "W", "W", "L"]],
+      [3, "laguaira", 8, 4, 2, 2, 12, 8, 4, 14, ["W", "L", "W", "D", "W"]],
+      [4, "metro", 8, 4, 1, 3, 11, 11, 0, 13, ["D", "W", "W", "L", "W"]],
+      [5, "monagas", 8, 3, 3, 2, 10, 9, 1, 12, ["W", "D", "L", "W", "D"]],
+      [6, "portuguesa", 8, 3, 2, 3, 9, 10, -1, 11, ["L", "W", "D", "W", "L"]],
+      [7, "zamora", 8, 3, 1, 4, 10, 13, -3, 10, ["W", "L", "L", "W", "D"]],
+      [8, "carabobo", 8, 2, 3, 3, 8, 10, -2, 9, ["D", "D", "L", "W", "D"]],
+      [9, "rayo", 8, 2, 2, 4, 7, 12, -5, 8, ["L", "W", "D", "L", "W"]],
+      [10, "estudiantes", 8, 2, 1, 5, 8, 14, -6, 7, ["L", "L", "W", "D", "L"]],
+      [11, "academia", 8, 1, 4, 3, 7, 11, -4, 7, ["D", "D", "L", "D", "W"]],
+      [12, "yaracuyanos", 8, 1, 3, 4, 6, 13, -7, 6, ["L", "D", "D", "W", "L"]],
+      [13, "angostura", 8, 1, 2, 5, 5, 13, -8, 5, ["D", "L", "L", "W", "L"]],
+      [14, "ucv", 8, 1, 0, 7, 4, 18, -14, 3, ["L", "L", "L", "W", "L"]],
+    ]),
+  },
+  cuadrangulares: {
+    phaseId: "cuadrangulares",
+    groupId: null,
+    viewType: "grouped_tables",
+    highlights: [
+      {
+        key: "qualifiesFinal",
+        tone: "promotion",
+        from: 1,
+        to: 1,
+      },
+    ],
+    groups: [
+      {
+        id: "grupo-a",
+        name: "Cuadrangular A",
+        rows: standingRows([
+          [1, "tachira", 2, 2, 0, 0, 4, 1, 3, 6, ["W", "W", "D", "W", "W"]],
+          [2, "laguaira", 2, 1, 0, 1, 3, 3, 0, 3, ["W", "L", "W", "D", "W"]],
+          [3, "monagas", 2, 0, 1, 1, 2, 3, -1, 1, ["W", "D", "L", "W", "D"]],
+          [4, "carabobo", 2, 0, 1, 1, 1, 3, -2, 1, ["D", "D", "L", "W", "D"]],
+        ]),
+      },
+      {
+        id: "grupo-b",
+        name: "Cuadrangular B",
+        rows: standingRows([
+          [1, "caracas", 2, 1, 1, 0, 3, 1, 2, 4, ["W", "D", "W", "W", "L"]],
+          [2, "metro", 2, 1, 1, 0, 2, 1, 1, 4, ["D", "W", "W", "L", "W"]],
+          [3, "portuguesa", 2, 1, 0, 1, 2, 2, 0, 3, ["L", "W", "D", "W", "L"]],
+          [4, "zamora", 2, 0, 0, 2, 1, 4, -3, 0, ["W", "L", "L", "W", "D"]],
+        ]),
+      },
+    ],
+  },
+  final: {
+    phaseId: "final",
+    groupId: null,
+    viewType: "bracket",
+    highlights: [],
+    finalist: {
+      teamId: "tachira",
+      teamName: "Deportivo Táchira",
+      fromGroupName: "Cuadrangular A",
+    },
+    opponent: null,
+  },
 };
+
+export const mockStandings: HomeStandingsResponse =
+  mockStandingsByPhase.regular;
 
 export const mockRounds: HomeRoundsResponse = {
   latest: {

@@ -12,10 +12,12 @@ import { getFormatLocale } from "@/lib/i18n/format";
 
 type PageProps = {
   params: Promise<{ locale: string }>;
+  searchParams: Promise<{ phase?: string | string[] }>;
 };
 
-export default async function Page({ params }: PageProps) {
+export default async function Page({ params, searchParams }: PageProps) {
   const { locale } = await params;
+  const { phase } = await searchParams;
 
   if (!isLocale(locale)) {
     notFound();
@@ -23,6 +25,7 @@ export default async function Page({ params }: PageProps) {
 
   const dictionary = await getDictionary(locale);
   const formatLocale = getFormatLocale(locale);
+  const phaseParam = Array.isArray(phase) ? phase[0] : phase;
 
   return (
     <HomeShell labels={dictionary.shell} locale={locale}>
@@ -35,7 +38,10 @@ export default async function Page({ params }: PageProps) {
 
       <section className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_340px]">
         <Suspense fallback={<HomeStandings skeleton />}>
-          <HomeStandings labels={dictionary.home.standings} />
+          <HomeStandings
+            labels={dictionary.home.standings}
+            phaseParam={phaseParam}
+          />
         </Suspense>
 
         <Suspense fallback={<HomeRounds skeleton />}>

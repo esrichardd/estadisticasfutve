@@ -1,8 +1,12 @@
-import type { HomeStandingRow } from "../../types/standings";
+import type {
+  HomeStandingHighlight,
+  HomeStandingRow,
+} from "../../types/standings";
 import { StandingsRow } from "./standings-row";
 
 type StandingsTableProps = {
   rows: HomeStandingRow[];
+  highlights: HomeStandingHighlight[];
   tableUnavailableLabel: string;
   recentFormLabel: string;
   columns: {
@@ -27,6 +31,7 @@ type StandingsTableProps = {
 export function StandingsTable({
   columns,
   formLabels,
+  highlights,
   recentFormLabel,
   rows,
   tableUnavailableLabel,
@@ -81,6 +86,7 @@ export function StandingsTable({
           {rows.map((row) => (
             <StandingsRow
               formLabels={formLabels}
+              highlights={highlights}
               key={row.team.id}
               recentFormLabel={recentFormLabel}
               row={row}

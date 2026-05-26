@@ -17,7 +17,13 @@
       "accent": "Stats",
       "short": "FV"
     },
-    "nav": ["Home", "Matches", "Table", "Teams", "Players"],
+    "nav": [
+      "Home",
+      "Matches",
+      "Table",
+      "Teams",
+      "Players"
+    ],
     "language": {
       "switchTo": "Switch to Spanish"
     },
@@ -44,13 +50,32 @@
     "standings": {
       "title": "Standings",
       "round": "Matchday 8",
-      "classification": "Qualification",
-      "relegation": "Relegation",
       "winShort": "W",
       "drawShort": "D",
       "lossShort": "L",
       "tableUnavailable": "Table is not available for this phase.",
       "recentForm": "Recent form",
+      "phases": {
+        "current": "Current phase",
+        "names": {
+          "round_robin": "Regular round",
+          "group_stage": "Group stage",
+          "knockout": "Final",
+          "two_legged": "Two-legged tie"
+        }
+      },
+      "bracket": {
+        "matchTitle": "Championship match",
+        "leaderA": "Leader A",
+        "leaderB": "Leader B",
+        "tbd": "To be decided",
+        "annotation": "One finalist has not been defined yet."
+      },
+      "legend": {
+        "qualifiesKnockout": "Qualifies to group stage",
+        "qualifiesFinal": "Advances to the final",
+        "relegation": "Relegation"
+      },
       "columns": {
         "team": "Team",
         "played": "MP",

@@ -1,9 +1,13 @@
 import { TeamLogo } from "../team-logo";
-import type { HomeStandingRow } from "../../types/standings";
+import type {
+  HomeStandingHighlight,
+  HomeStandingRow,
+} from "../../types/standings";
 import { FormIndicator } from "./form-indicator";
 
 type StandingsRowProps = {
   row: HomeStandingRow;
+  highlights: HomeStandingHighlight[];
   recentFormLabel: string;
   formLabels: {
     W: string;
@@ -14,14 +18,20 @@ type StandingsRowProps = {
 
 export function StandingsRow({
   formLabels,
+  highlights,
   recentFormLabel,
   row,
 }: StandingsRowProps) {
   const goalDifference =
     row.goalDifference > 0 ? `+${row.goalDifference}` : row.goalDifference;
   const isLeader = row.position === 1;
-  const isPromotion = row.position <= 4;
-  const isDanger = row.position >= 11;
+  const rowHighlight = highlights.find((highlight) => {
+    const to = highlight.to ?? highlight.from;
+
+    return row.position >= highlight.from && row.position <= to;
+  });
+  const isPromotion = rowHighlight?.tone === "promotion";
+  const isDanger = rowHighlight?.tone === "danger";
 
   return (
     <tr

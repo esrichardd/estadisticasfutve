@@ -17,7 +17,13 @@
       "accent": "FUTVE",
       "short": "FV"
     },
-    "nav": ["Inicio", "Partidos", "Tabla", "Equipos", "Jugadores"],
+    "nav": [
+      "Inicio",
+      "Partidos",
+      "Tabla",
+      "Equipos",
+      "Jugadores"
+    ],
     "language": {
       "switchTo": "Cambiar a inglés"
     },
@@ -44,13 +50,32 @@
     "standings": {
       "title": "Tabla de Posiciones",
       "round": "Jornada 8",
-      "classification": "Clasificación",
-      "relegation": "Descenso",
       "winShort": "V",
       "drawShort": "E",
       "lossShort": "D",
       "tableUnavailable": "Tabla no disponible para esta fase.",
       "recentForm": "Forma reciente",
+      "phases": {
+        "current": "Fase actual",
+        "names": {
+          "round_robin": "Ronda regular",
+          "group_stage": "Cuadrangulares",
+          "knockout": "Final",
+          "two_legged": "Ida y vuelta"
+        }
+      },
+      "bracket": {
+        "matchTitle": "Partido de campeonato",
+        "leaderA": "Líder A",
+        "leaderB": "Líder B",
+        "tbd": "Por definir",
+        "annotation": "Uno de los finalistas aún no está definido."
+      },
+      "legend": {
+        "qualifiesKnockout": "Clasifica a cuadrangulares",
+        "qualifiesFinal": "Avanza a la final",
+        "relegation": "Descenso"
+      },
       "columns": {
         "team": "Equipo",
         "played": "PJ",
