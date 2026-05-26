@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Frontend - Estadisticas FUTVE
 
-## Getting Started
+Aplicacion web de Estadisticas FUTVE.
 
-First, run the development server:
+## Inicio rapido
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abrir en el navegador:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```txt
+http://localhost:3000/es
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Scripts
 
-## Learn More
+```bash
+pnpm dev      # servidor de desarrollo
+pnpm build    # build de produccion
+pnpm start    # servir build de produccion
+pnpm lint     # ejecutar ESLint
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Documentacion
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Arquitectura del frontend](./docs/architecture/README.md)
+- [Guia de contribucion](../CONTRIBUTING.md)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Convenciones de trabajo
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Usa `pnpm` para instalar dependencias y ejecutar scripts.
+- Las rutas publicas usan prefijo de idioma, por ejemplo `/es` y `/en`.
+- Para decisiones de estructura, capas o dependencias internas, consulta la documentacion de arquitectura.
