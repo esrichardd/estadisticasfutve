@@ -1,0 +1,250 @@
+{
+  "metadata": {
+    "name": "FUTVE 2026 Apertura structure",
+    "description": "Seed estructural para Liga FUTVE, temporada 2026, Torneo Apertura.",
+    "sources": [
+      "https://ligafutve.org/la-fase-final-del-torneo-apertura-ya-definio-sus-enfrentamientos/",
+      "https://ligafutve.org/clasificacion-liga-futve/",
+      "https://ligafutve.org/calendario/",
+      "https://www.lavinotinto.com/calendario-del-torneo-apertura-2026/",
+      "https://es.wikipedia.org/wiki/Torneo_Apertura_2026_%28Venezuela%29"
+    ],
+    "notes": [
+      "La estructura incluye equipos, temporada, torneo, fases y grupos de cuadrangulares.",
+      "No incluye fixture detallado, resultados, jugadores, arbitros, eventos ni standings."
+    ]
+  },
+  "league": {
+    "name": "Primera Division de Venezuela",
+    "country": "Venezuela",
+    "federation": "Liga FUTVE",
+    "logo_url": null,
+    "website": "https://ligafutve.org/",
+    "is_active": true
+  },
+  "season": {
+    "display_name": "2026",
+    "start_date": "2026-01-29",
+    "end_date": "2026-12-31"
+  },
+  "teams": [
+    {
+      "name": "Academia Puerto Cabello",
+      "short_name": "Puerto Cabello",
+      "abbreviation": "APC",
+      "city": "Puerto Cabello",
+      "stadium": "Complejo Deportivo Socialista",
+      "logo_url": null,
+      "founded_year": null,
+      "is_active": true
+    },
+    {
+      "name": "Anzoategui FC",
+      "short_name": "Anzoategui",
+      "abbreviation": "ANZ",
+      "city": "Puerto La Cruz",
+      "stadium": "Jose Antonio Anzoategui",
+      "logo_url": null,
+      "founded_year": null,
+      "is_active": true
+    },
+    {
+      "name": "Carabobo FC",
+      "short_name": "Carabobo",
+      "abbreviation": "CAR",
+      "city": "Valencia",
+      "stadium": "Polideportivo Misael Delgado",
+      "logo_url": null,
+      "founded_year": null,
+      "is_active": true
+    },
+    {
+      "name": "Caracas FC",
+      "short_name": "Caracas",
+      "abbreviation": "CCS",
+      "city": "Caracas",
+      "stadium": "Estadio Olimpico de la UCV",
+      "logo_url": null,
+      "founded_year": null,
+      "is_active": true
+    },
+    {
+      "name": "Deportivo La Guaira",
+      "short_name": "La Guaira",
+      "abbreviation": "DLG",
+      "city": "Caracas",
+      "stadium": "Estadio Olimpico de la UCV",
+      "logo_url": null,
+      "founded_year": null,
+      "is_active": true
+    },
+    {
+      "name": "Deportivo Tachira",
+      "short_name": "Tachira",
+      "abbreviation": "TAC",
+      "city": "San Cristobal",
+      "stadium": "Pueblo Nuevo",
+      "logo_url": null,
+      "founded_year": null,
+      "is_active": true
+    },
+    {
+      "name": "Estudiantes de Merida",
+      "short_name": "Estudiantes",
+      "abbreviation": "EDM",
+      "city": "Merida",
+      "stadium": "Metropolitano de Merida",
+      "logo_url": null,
+      "founded_year": null,
+      "is_active": true
+    },
+    {
+      "name": "Metropolitanos FC",
+      "short_name": "Metropolitanos",
+      "abbreviation": "MET",
+      "city": "Caracas",
+      "stadium": "Olimpico de la UCV",
+      "logo_url": null,
+      "founded_year": null,
+      "is_active": true
+    },
+    {
+      "name": "Monagas SC",
+      "short_name": "Monagas",
+      "abbreviation": "MON",
+      "city": "Maturin",
+      "stadium": "Monumental de Maturin",
+      "logo_url": null,
+      "founded_year": null,
+      "is_active": true
+    },
+    {
+      "name": "Portuguesa FC",
+      "short_name": "Portuguesa",
+      "abbreviation": "POR",
+      "city": "Acarigua",
+      "stadium": "Jose Antonio Paez",
+      "logo_url": null,
+      "founded_year": null,
+      "is_active": true
+    },
+    {
+      "name": "Rayo Zuliano",
+      "short_name": "Rayo Zuliano",
+      "abbreviation": "RZU",
+      "city": "Maracaibo",
+      "stadium": "Pachencho Romero",
+      "logo_url": null,
+      "founded_year": null,
+      "is_active": true
+    },
+    {
+      "name": "Trujillanos FC",
+      "short_name": "Trujillanos",
+      "abbreviation": "TRU",
+      "city": "Valera",
+      "stadium": "Jose Alberto Perez",
+      "logo_url": null,
+      "founded_year": null,
+      "is_active": true
+    },
+    {
+      "name": "UCV FC",
+      "short_name": "UCV",
+      "abbreviation": "UCV",
+      "city": "Caracas",
+      "stadium": "Olimpico de la UCV",
+      "logo_url": null,
+      "founded_year": null,
+      "is_active": true
+    },
+    {
+      "name": "Zamora FC",
+      "short_name": "Zamora",
+      "abbreviation": "ZAM",
+      "city": "Barinas",
+      "stadium": "Agustin Tovar",
+      "logo_url": null,
+      "founded_year": null,
+      "is_active": true
+    }
+  ],
+  "tournaments": [
+    {
+      "name": "Apertura",
+      "order": 1,
+      "start_date": "2026-01-29",
+      "end_date": "2026-06-07",
+      "phases": [
+        {
+          "name": "Ronda Regular",
+          "phase_type": "round_robin",
+          "order": 1,
+          "num_legs": 1,
+          "promotion_spots": 8,
+          "cards_reset_on_start": false
+        },
+        {
+          "name": "Cuadrangulares",
+          "phase_type": "group_stage",
+          "order": 2,
+          "num_legs": 2,
+          "promotion_spots": 2,
+          "cards_reset_on_start": true,
+          "groups": [
+            {
+              "name": "Cuadrangular A",
+              "teams": [
+                {
+                  "name": "Deportivo La Guaira",
+                  "seed": 1
+                },
+                {
+                  "name": "UCV FC",
+                  "seed": 2
+                },
+                {
+                  "name": "Portuguesa FC",
+                  "seed": 3
+                },
+                {
+                  "name": "Academia Puerto Cabello",
+                  "seed": 4
+                }
+              ]
+            },
+            {
+              "name": "Cuadrangular B",
+              "teams": [
+                {
+                  "name": "Metropolitanos FC",
+                  "seed": 1
+                },
+                {
+                  "name": "Deportivo Tachira",
+                  "seed": 2
+                },
+                {
+                  "name": "Estudiantes de Merida",
+                  "seed": 3
+                },
+                {
+                  "name": "Carabobo FC",
+                  "seed": 4
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Final",
+          "phase_type": "knockout",
+          "order": 3,
+          "num_legs": 1,
+          "promotion_spots": null,
+          "cards_reset_on_start": false
+        }
+      ]
+    }
+  ]
+}

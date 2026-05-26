@@ -50,6 +50,8 @@ services:
     volumes:
       - ./backend/app:/app/app        # hot reload: código fuente
       - ./backend/alembic:/app/alembic # hot reload: migraciones
+      - ./backend/scripts:/app/scripts # hot reload: scripts de importación
+      - ./backend/data:/app/data       # hot reload: seeds y datasets
       - /app/.venv                    # .venv queda en el contenedor
     depends_on:
       postgres:
