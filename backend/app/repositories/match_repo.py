@@ -13,7 +13,10 @@ from uuid import UUID
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from sqlalchemy import or_
+
 from app.models.match import Match, MatchEvent, MatchOfficial, Round
+from app.models.enums import MatchStatus
 from app.repositories import base
 
 
@@ -73,6 +76,32 @@ async def get_matches(
     if round_id:
         query = query.where(Match.round_id == round_id)
     result = await session.execute(query.offset(offset).limit(limit))
+    return list(result.scalars().all())
+
+
+async def get_finished_matches_by_team(
+    session: AsyncSession,
+    *,
+    team_id: UUID,
+    phase_id: UUID,
+    limit: int = 5,
+) -> list[Match]:
+    """
+    Últimos N partidos finalizados de un equipo en una fase, ordenados por
+    fecha programada DESC. Usado para calcular la racha de forma reciente.
+    """
+    query = (
+        select(Match)
+        .join(Round, Match.round_id == Round.id)
+        .where(Round.phase_id == phase_id)
+        .where(Match.status == MatchStatus.finished)
+        .where(
+            or_(Match.home_team_id == team_id, Match.away_team_id == team_id)
+        )
+        .order_by(Match.scheduled_datetime.desc())
+        .limit(limit)
+    )
+    result = await session.execute(query)
     return list(result.scalars().all())
 
 

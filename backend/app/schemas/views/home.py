@@ -219,9 +219,25 @@ class HomeRoundSchema(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
 
-class HomeRoundsResponse(BaseModel):
+class HomeRoundsGroupSchema(BaseModel):
+    """Un grupo (cuadrangular) con su jornada más reciente y la próxima."""
+    group_id: str = Field(alias="groupId")
+    group_name: str = Field(alias="groupName")
     latest: Optional[HomeRoundSchema] = None
     next: Optional[HomeRoundSchema] = None
+
+    model_config = ConfigDict(populate_by_name=True)
+
+
+class HomeRoundsResponse(BaseModel):
+    """
+    mode='single'   → round_robin / knockout: usar latest y next directamente.
+    mode='grouped'  → group_stage: usar groups[]; latest y next son None.
+    """
+    mode: str = "single"
+    latest: Optional[HomeRoundSchema] = None
+    next: Optional[HomeRoundSchema] = None
+    groups: Optional[list[HomeRoundsGroupSchema]] = None
 
 
 # ─── Highlights ───────────────────────────────────────────────────────────────

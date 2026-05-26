@@ -32,6 +32,7 @@ from app.schemas.views.home import (
     HomeLeadersResponse,
     HomePhaseSchema,
     HomePhasesResponse,
+    HomeRoundsGroupSchema,
     HomeRoundsResponse,
     HomeStandingHighlightSchema,
     HomeStandingRowSchema,
@@ -67,6 +68,29 @@ def _build_team_summary(team) -> dict:
         "color": _team_color(str(team.id)),
         "logoUrl": team.logo_url,
     }
+
+
+async def _calc_form(db, team_id, phase_id, limit: int = 5) -> list[str]:
+    """
+    Calcula la racha de forma reciente de un equipo en una fase.
+    Devuelve una lista de hasta `limit` resultados en orden cronológico
+    (el más reciente al final), con valores 'W', 'D' o 'L'.
+    """
+    recent = await match_repo.get_finished_matches_by_team(
+        db, team_id=team_id, phase_id=phase_id, limit=limit
+    )
+    # get_finished_matches_by_team devuelve los partidos DESC; invertimos para
+    # que el array vaya del más antiguo al más reciente.
+    recent = list(reversed(recent))
+    form = []
+    for m in recent:
+        if m.home_team_id == team_id:
+            home, away = m.home_score or 0, m.away_score or 0
+            form.append("W" if home > away else "D" if home == away else "L")
+        else:
+            home, away = m.home_score or 0, m.away_score or 0
+            form.append("W" if away > home else "D" if away == home else "L")
+    return form
 
 
 async def _resolve_tournament(db, season_display: str, tournament_name: str):
@@ -158,39 +182,47 @@ async def get_home_summary(
 
     current_phase = await _find_current_phase(db, phases)
 
-    # Jornada actual: última (mayor number) con al menos un match finished
+    # Jornada actual: solo aplica en round_robin.
+    # En group_stage hay múltiples grupos en paralelo, no hay una jornada única.
     current_round = None
-    all_rounds = await match_repo.get_rounds(db, phase_id=current_phase.id)
-    for round_ in sorted(all_rounds, key=lambda r: r.number, reverse=True):
-        matches = await match_repo.get_matches(db, round_id=round_.id)
-        if any(m.status == MatchStatus.finished for m in matches):
-            current_round = round_
-            break
-
-    # Métricas: recorrer todos los rounds de todas las fases
-    total_goals = 0
-    played_matches = 0
-    next_match_dt = None
-
-    for phase in phases:
-        phase_rounds = await match_repo.get_rounds(db, phase_id=phase.id)
-        for round_ in phase_rounds:
+    if current_phase.phase_type == PhaseType.round_robin:
+        all_rounds = await match_repo.get_rounds(db, phase_id=current_phase.id)
+        for round_ in sorted(all_rounds, key=lambda r: r.number, reverse=True):
             matches = await match_repo.get_matches(db, round_id=round_.id)
-            for m in matches:
-                if m.status == MatchStatus.finished:
-                    played_matches += 1
-                    total_goals += (m.home_score or 0) + (m.away_score or 0)
-                elif m.status == MatchStatus.scheduled and m.scheduled_datetime:
-                    if next_match_dt is None or m.scheduled_datetime < next_match_dt:
-                        next_match_dt = m.scheduled_datetime
-
-    next_match_str = next_match_dt.isoformat() if next_match_dt else ""
+            if any(m.status == MatchStatus.finished for m in matches):
+                current_round = round_
+                break
 
     # Líder: equipo con más points en la fase round_robin (o la actual si no hay)
     leader_phase = next(
         (p for p in phases if p.phase_type == PhaseType.round_robin),
         current_phase,
     )
+
+    # Métricas de conteo (total_goals, played_matches) → solo ronda regular
+    # next_match_dt → todo el torneo (el próximo partido real, sea de cualquier fase)
+    total_goals = 0
+    played_matches = 0
+    next_match_dt = None
+
+    leader_phase_rounds = await match_repo.get_rounds(db, phase_id=leader_phase.id)
+    for round_ in leader_phase_rounds:
+        matches = await match_repo.get_matches(db, round_id=round_.id)
+        for m in matches:
+            if m.status == MatchStatus.finished:
+                played_matches += 1
+                total_goals += (m.home_score or 0) + (m.away_score or 0)
+
+    for phase in phases:
+        phase_rounds = await match_repo.get_rounds(db, phase_id=phase.id)
+        for round_ in phase_rounds:
+            matches = await match_repo.get_matches(db, round_id=round_.id)
+            for m in matches:
+                if m.status == MatchStatus.scheduled and m.scheduled_datetime:
+                    if next_match_dt is None or m.scheduled_datetime < next_match_dt:
+                        next_match_dt = m.scheduled_datetime
+
+    next_match_str = next_match_dt.isoformat() if next_match_dt else ""
     leader_standings = await standing_repo.get_all(db, phase_id=leader_phase.id)
     leader_dict = {"teamName": "", "points": 0}
     if leader_standings:
@@ -311,6 +343,7 @@ async def get_home_standings(
         rows = []
         for i, s in enumerate(standings, start=1):
             team = await team_repo.get_by_id(db, s.team_id)
+            form = await _calc_form(db, s.team_id, phase.id)
             rows.append(HomeStandingRowSchema(
                 position=i,
                 team=TeamSummarySchema(**_build_team_summary(team)),
@@ -324,7 +357,7 @@ async def get_home_standings(
                     "goalDifference": s.goal_difference,
                 },
                 points=s.points,
-                form=[],
+                form=form,
             ))
 
         highlights = [
@@ -354,6 +387,7 @@ async def get_home_standings(
             rows = []
             for i, s in enumerate(standings, start=1):
                 team = await team_repo.get_by_id(db, s.team_id)
+                form = await _calc_form(db, s.team_id, phase.id)
                 rows.append(HomeStandingRowSchema(
                     position=i,
                     team=TeamSummarySchema(**_build_team_summary(team)),
@@ -367,7 +401,7 @@ async def get_home_standings(
                         "goalDifference": s.goal_difference,
                     },
                     points=s.points,
-                    form=[],
+                    form=form,
                 ))
             groups_data.append(
                 HomeStandingsGroupSchema(id=str(group.id), name=group.name, rows=rows)
@@ -397,25 +431,36 @@ async def get_home_standings(
     opponent = None
 
     if group_stage_phase:
-        groups = await tournament_repo.get_groups(db, group_stage_phase.id)
-        for idx, group in enumerate(groups):
-            standings = await standing_repo.get_all(
-                db, phase_id=group_stage_phase.id, group_id=group.id
-            )
-            if standings:
-                leader = standings[0]  # ya ordenado por points DESC
-                team = await team_repo.get_by_id(db, leader.team_id)
-                entry = HomeStandingsFinalistSchema(
-                    **{
-                        "teamId": str(team.id),
-                        "teamName": team.name,
-                        "fromGroupName": group.name,
-                    }
+        # Verificar si todos los partidos del group_stage están finalizados.
+        # Mientras queden partidos pendientes, no proyectamos finalistas.
+        group_stage_complete = True
+        gs_rounds = await match_repo.get_rounds(db, phase_id=group_stage_phase.id)
+        for gs_round in gs_rounds:
+            gs_matches = await match_repo.get_matches(db, round_id=gs_round.id)
+            if any(m.status != MatchStatus.finished for m in gs_matches):
+                group_stage_complete = False
+                break
+
+        if group_stage_complete:
+            groups = await tournament_repo.get_groups(db, group_stage_phase.id)
+            for idx, group in enumerate(groups):
+                standings = await standing_repo.get_all(
+                    db, phase_id=group_stage_phase.id, group_id=group.id
                 )
-                if idx == 0:
-                    finalist = entry
-                elif idx == 1:
-                    opponent = entry
+                if standings:
+                    leader = standings[0]  # ya ordenado por points DESC
+                    team = await team_repo.get_by_id(db, leader.team_id)
+                    entry = HomeStandingsFinalistSchema(
+                        **{
+                            "teamId": str(team.id),
+                            "teamName": team.name,
+                            "fromGroupName": group.name,
+                        }
+                    )
+                    if idx == 0:
+                        finalist = entry
+                    elif idx == 1:
+                        opponent = entry
 
     result = HomeStandingsBracketResponse(
         **{"phaseId": str(phase.id), "groupId": None, "viewType": "bracket"},
@@ -445,7 +490,65 @@ async def get_home_rounds(
     if not phases:
         raise HTTPException(status_code=404, detail="El torneo no tiene fases definidas")
 
-    # Recolectar todos los rounds del torneo con sus matches
+    import datetime as dt
+
+    current_phase = await _find_current_phase(db, phases)
+
+    def _pick_latest(rounds_with_matches):
+        """Round más reciente con al menos un partido finished."""
+        finished = [
+            (r, m) for r, m in rounds_with_matches
+            if any(match.status == MatchStatus.finished for match in m)
+        ]
+        if not finished:
+            return None
+        return max(
+            finished,
+            key=lambda rm: (rm[0].date_end or dt.date.min, rm[0].number),
+        )[0]
+
+    def _pick_next(rounds_with_matches):
+        """Round más próximo con al menos un partido scheduled."""
+        scheduled = [
+            (r, m) for r, m in rounds_with_matches
+            if any(match.status == MatchStatus.scheduled for match in m)
+        ]
+        if not scheduled:
+            return None
+        return min(
+            scheduled,
+            key=lambda rm: (rm[0].date_start or dt.date.max, rm[0].number),
+        )[0]
+
+    # ── group_stage → un latest/next por grupo ──────────────────────────────
+    if current_phase.phase_type == PhaseType.group_stage:
+        groups = await tournament_repo.get_groups(db, current_phase.id)
+        groups_data = []
+        for group in groups:
+            group_rounds = await match_repo.get_rounds(
+                db, phase_id=current_phase.id, group_id=group.id
+            )
+            rwm = []
+            for round_ in group_rounds:
+                matches = await match_repo.get_matches(db, round_id=round_.id)
+                rwm.append((round_, matches))
+
+            latest_r = _pick_latest(rwm)
+            next_r = _pick_next(rwm)
+
+            groups_data.append(HomeRoundsGroupSchema(**{
+                "groupId": str(group.id),
+                "groupName": group.name,
+                "latest": await _build_home_round(db, latest_r) if latest_r else None,
+                "next": await _build_home_round(db, next_r) if next_r else None,
+            }))
+
+        return HomeRoundsResponse(
+            mode="grouped",
+            groups=groups_data,
+        ).model_dump(by_alias=True)
+
+    # ── round_robin / knockout → latest y next únicos ───────────────────────
     all_rounds_with_matches = []
     for phase in phases:
         rounds = await match_repo.get_rounds(db, phase_id=phase.id)
@@ -453,40 +556,14 @@ async def get_home_rounds(
             matches = await match_repo.get_matches(db, round_id=round_.id)
             all_rounds_with_matches.append((round_, matches))
 
-    # latest: round con al menos un match finished, mayor date_end (y number en empate)
-    finished_rounds = [
-        (r, m) for r, m in all_rounds_with_matches
-        if any(match.status == MatchStatus.finished for match in m)
-    ]
-    latest_round = None
-    if finished_rounds:
-        latest_round = max(
-            finished_rounds,
-            key=lambda rm: (
-                rm[0].date_end or __import__("datetime").date.min,
-                rm[0].number,
-            ),
-        )[0]
-
-    # next: round con al menos un match scheduled, menor date_start
-    scheduled_rounds = [
-        (r, m) for r, m in all_rounds_with_matches
-        if any(match.status == MatchStatus.scheduled for match in m)
-    ]
-    next_round = None
-    if scheduled_rounds:
-        next_round = min(
-            scheduled_rounds,
-            key=lambda rm: (
-                rm[0].date_start or __import__("datetime").date.max,
-                rm[0].number,
-            ),
-        )[0]
+    latest_round = _pick_latest(all_rounds_with_matches)
+    next_round = _pick_next(all_rounds_with_matches)
 
     latest_data = await _build_home_round(db, latest_round) if latest_round else None
     next_data = await _build_home_round(db, next_round) if next_round else None
 
     return HomeRoundsResponse(
+        mode="single",
         latest=latest_data,
         next=next_data,
     ).model_dump(by_alias=True)
